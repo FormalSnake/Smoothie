@@ -14,6 +14,8 @@
 		7AB910B62BC8408500745184 /* SmoothieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB910B52BC8408500745184 /* SmoothieTests.swift */; };
 		7AB910C02BC8408500745184 /* SmoothieUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB910BF2BC8408500745184 /* SmoothieUITests.swift */; };
 		7AB910C22BC8408500745184 /* SmoothieUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB910C12BC8408500745184 /* SmoothieUITestsLaunchTests.swift */; };
+		7AB910D02BC8413400745184 /* DynamicNotchKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7AB910CF2BC8413400745184 /* DynamicNotchKit */; };
+		7AB910D32BC8416200745184 /* SimplyCoreAudio in Frameworks */ = {isa = PBXBuildFile; productRef = 7AB910D22BC8416200745184 /* SimplyCoreAudio */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AB910D32BC8416200745184 /* SimplyCoreAudio in Frameworks */,
+				7AB910D02BC8413400745184 /* DynamicNotchKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +149,10 @@
 			dependencies = (
 			);
 			name = Smoothie;
+			packageProductDependencies = (
+				7AB910CF2BC8413400745184 /* DynamicNotchKit */,
+				7AB910D22BC8416200745184 /* SimplyCoreAudio */,
+			);
 			productName = Smoothie;
 			productReference = 7AB910A02BC8408200745184 /* Smoothie.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +225,10 @@
 				Base,
 			);
 			mainGroup = 7AB910972BC8408200745184;
+			packageReferences = (
+				7AB910CE2BC8413400745184 /* XCRemoteSwiftPackageReference "DynamicNotchKit" */,
+				7AB910D12BC8416200745184 /* XCRemoteSwiftPackageReference "SimplyCoreAudio" */,
+			);
 			productRefGroup = 7AB910A12BC8408200745184 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -581,6 +593,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7AB910CE2BC8413400745184 /* XCRemoteSwiftPackageReference "DynamicNotchKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MrKai77/DynamicNotchKit";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		7AB910D12BC8416200745184 /* XCRemoteSwiftPackageReference "SimplyCoreAudio" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rnine/SimplyCoreAudio.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7AB910CF2BC8413400745184 /* DynamicNotchKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AB910CE2BC8413400745184 /* XCRemoteSwiftPackageReference "DynamicNotchKit" */;
+			productName = DynamicNotchKit;
+		};
+		7AB910D22BC8416200745184 /* SimplyCoreAudio */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AB910D12BC8416200745184 /* XCRemoteSwiftPackageReference "SimplyCoreAudio" */;
+			productName = SimplyCoreAudio;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7AB910982BC8408200745184 /* Project object */;
 }
