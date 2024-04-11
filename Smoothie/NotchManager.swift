@@ -7,13 +7,15 @@
 
 import Foundation
 import DynamicNotchKit
+import SwiftUI
 
 class NotchManager{
-    public func showNotch(systemImage: String, title: String, description: String, showLength: Double){
+    public func showNotch<Content: View>(content: Content, title: String, description: String, showLength: Double){
         let notch = DynamicNotchInfo(
-            systemImage: systemImage,
+            iconView: content,
             title: title,
-            description: description
+            description: description,
+            style: .floating
         )
         notch.show(for: showLength)
     }

@@ -11,7 +11,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button( action: {
-                NotchManager().showNotch(systemImage: "figure", title: "Figure", description: "Looks like a person", showLength: 2)
+                NotchManager().showNotch(content: ContentView(), title: "Trigger notch", description: "Notchception??", showLength: 2)
             }, label: {
                 Text("Trigger the Notch!")
             }
