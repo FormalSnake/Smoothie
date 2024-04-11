@@ -16,6 +16,7 @@
 		7AB910C22BC8408500745184 /* SmoothieUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB910C12BC8408500745184 /* SmoothieUITestsLaunchTests.swift */; };
 		7AB910D02BC8413400745184 /* DynamicNotchKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7AB910CF2BC8413400745184 /* DynamicNotchKit */; };
 		7AB910D32BC8416200745184 /* SimplyCoreAudio in Frameworks */ = {isa = PBXBuildFile; productRef = 7AB910D22BC8416200745184 /* SimplyCoreAudio */; };
+		7AD564032BC87490009C009A /* NotchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD564022BC87490009C009A /* NotchManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		7AB910BB2BC8408500745184 /* SmoothieUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmoothieUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AB910BF2BC8408500745184 /* SmoothieUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmoothieUITests.swift; sourceTree = "<group>"; };
 		7AB910C12BC8408500745184 /* SmoothieUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmoothieUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		7AD564022BC87490009C009A /* NotchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				7AB910A72BC8408400745184 /* Assets.xcassets */,
 				7AB910AC2BC8408500745184 /* Smoothie.entitlements */,
 				7AB910A92BC8408500745184 /* Preview Content */,
+				7AD564022BC87490009C009A /* NotchManager.swift */,
 			);
 			path = Smoothie;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 			files = (
 				7AB910A62BC8408200745184 /* ContentView.swift in Sources */,
 				7AB910A42BC8408200745184 /* SmoothieApp.swift in Sources */,
+				7AD564032BC87490009C009A /* NotchManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

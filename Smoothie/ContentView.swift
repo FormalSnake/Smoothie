@@ -10,10 +10,12 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Button( action: {
+                NotchManager().showNotch(systemImage: "figure", title: "Figure", description: "Looks like a person", showLength: 2)
+            }, label: {
+                Text("Trigger the Notch!")
+            }
+            )
         }
         .padding()
     }
