@@ -107,6 +107,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         if defaultOutputDevice.name.lowercased().contains("buds") {
             outputImage = "earbuds"
         }
+        if defaultOutputDevice.name.lowercased().contains("ear") {
+            outputImage = "earbuds"
+        }
+        if defaultOutputDevice.name.lowercased().contains("pods") {
+            outputImage = "earbuds"
+        }
         if defaultOutputDevice.name.lowercased().contains("headphones") {
             outputImage = "headphones"
         }
