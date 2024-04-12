@@ -12,6 +12,17 @@ struct SmoothieApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
+        MenuBarExtra("Audio Out", systemImage: "cable.coaxial") {
+            Button("Show") {
+                appDelegate.updateAudioDevice()
+            }
+            Button(action: {
+                NSApp.terminate(self)
+            }, label: {
+                Text("Quit")
+            })
+        }
+        .menuBarExtraStyle(.menu)
         MenuBarExtra() {
             Button(action: {
                 appDelegate.updateBatteryInfo()
