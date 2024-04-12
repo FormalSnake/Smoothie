@@ -10,28 +10,33 @@ import SwiftUI
 @main
 struct SmoothieApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
+    
     var body: some Scene {
-        MenuBarExtra("Battery Monitor", systemImage: "minus.plus.batteryblock.fill") {
-                    Button(action: {
-                        appDelegate.updateBatteryInfo()
-
-                            appDelegate.showPopup(
-                                title: "Battery Percentage",
-                                description: "\(appDelegate.batteryTimeRemaining)",
-                                seconds: 2
-                            )
-                    },
-                           label: {
-                        Text("Trigger")
-                    })
-                    Button(action: {
-                        NSApp.terminate(self)
-                    }, label: {
-                        Text("Quit")
-                    })
-                }
-                .menuBarExtraStyle(.menu)
+        MenuBarExtra() {
+            Button(action: {
+                appDelegate.updateBatteryInfo()
+                
+                appDelegate.showPopup(
+                    title: "\(Int(appDelegate.batteryPercentage * 100))%",
+                    description: "\(appDelegate.batteryTimeRemaining)",
+                    seconds: 2
+                )
+            },
+                   label: {
+                Text("Trigger")
+            })
+            Button(action: {
+                NSApp.terminate(self)
+            }, label: {
+                Text("Quit")
+            })
+        }
+    label: {
+        HStack{
+            Text("\(Int(appDelegate.batteryPercentage * 100))%")
+        }
+    }
+    .menuBarExtraStyle(.menu)
         WindowGroup {
             ContentView(appDelegate: appDelegate)
         }
