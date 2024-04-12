@@ -13,7 +13,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button {
-                appDelegate.showPopup("TEST!")
+                appDelegate.showPopup(title: "TEST!")
             } label: {
                 Text("Show popup")
             }
