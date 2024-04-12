@@ -25,50 +25,30 @@ final class BatteryService {
     // Initializes a new Battery object.
     init() throws {
         try openServiceConnection()
-        CFRunLoopAddSource(CFRunLoopGetCurrent(),
-                           IOPSNotificationCreateRunLoopSource(powerSourceCallback, nil).takeRetainedValue(),
-                           CFRunLoopMode.defaultMode)
+        CFRunLoopAddSource(
+            CFRunLoopGetCurrent(),
+            IOPSNotificationCreateRunLoopSource(powerSourceCallback, nil).takeRetainedValue(),
+            CFRunLoopMode.defaultMode
+        )
     }
 
     // MARK: Internal
 
-    // The current status of the battery, e.g. charging.
-    var state: BatteryState? {
-        guard let charging = isCharging,
-              let plugged = isPlugged,
-              let charged = isCharged
-        else {
-            return nil
-        }
-
-        if charged, plugged {
-            return .chargedAndPlugged
-        }
-        if charging {
-            return .charging(percentage: percentage)
-        }
-
-        return .discharging(percentage: percentage)
-    }
-
-    // The estimated time remaining until the battery is empty or fully charged.
-    var timeRemaining: TimeRemaining {
+    var timeRemaining: Int? {
         let time = IOPSGetTimeRemainingEstimate()
         switch time {
         case kIOPSTimeRemainingUnknown:
-            return TimeRemaining(minutes: nil, state: state)
+            return nil
         case kIOPSTimeRemainingUnlimited:
-            // The battery is connected to a power outlet, get the remaining time
-            // until the battery is fully charged.
-            return TimeRemaining(minutes: getRegistryProperty(forKey: .timeRemaining) as? Int, state: state)
+            return getRegistryProperty(forKey: .timeRemaining) as? Int
         default:
-            return TimeRemaining(minutes: Int(time / 60), state: state)
+            return Int(time / 60)
         }
     }
 
     // The current percentage, based on the current charge and the maximum capacity.
-    var percentage: Percentage {
-        Percentage(numeric: getPowerSourceProperty(forKey: .percentage) as? Int)
+    var percentage: Int? {
+        getPowerSourceProperty(forKey: .percentage) as? Int
     }
 
     // The current charge in mAh.
@@ -150,8 +130,10 @@ final class BatteryService {
     //
     // - throws: A BatteryError if something went wrong.
     private func openServiceConnection() throws {
-        service = IOServiceGetMatchingService(kIOMainPortDefault,
-                                              IOServiceNameMatching(BatteryRegistryPropertyKey.service.rawValue))
+        service = IOServiceGetMatchingService(
+            kIOMainPortDefault,
+            IOServiceNameMatching(BatteryRegistryPropertyKey.service.rawValue)
+        )
 
         if service == BatteryService.connectionClosed {
             throw BatteryError.serviceNotFound("Opening (\(BatteryRegistryPropertyKey.service.rawValue)) service failed")
@@ -173,7 +155,12 @@ final class BatteryService {
     // - parameter key: A BatteryRegistryPropertyKey to get the corresponding registry entry.
     // - returns: The registry entry for the provided BatteryRegistryPropertyKey.
     private func getRegistryProperty(forKey key: BatteryRegistryPropertyKey) -> Any? {
-        IORegistryEntryCreateCFProperty(service, key.rawValue as CFString?, nil, 0).takeRetainedValue()
+        IORegistryEntryCreateCFProperty(
+            service,
+            key.rawValue as CFString?,
+            nil,
+            0
+        ).takeRetainedValue()
     }
 
     // Get a power source entry for the supplied property key.
