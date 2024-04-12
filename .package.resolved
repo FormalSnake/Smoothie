@@ -1,5 +1,5 @@
 {
-  "originHash" : "884ef7b3be52fb521e9a7031ba0823e7839266aee034b345025b04e783ae518d",
+  "originHash" : "907eb6b3fd480c7ae3b5739f7b50e99a7eea910dcc2adbc6a4a56fdb6e7e57b8",
   "pins" : [
     {
       "identity" : "dynamicnotchkit",
@@ -13,10 +13,10 @@
     {
       "identity" : "simplycoreaudio",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/rnine/SimplyCoreAudio.git",
+      "location" : "https://github.com/rnine/SimplyCoreAudio",
       "state" : {
-        "revision" : "35cc0e6eac5c2ee5049431f4238b0e333cf79869",
-        "version" : "4.1.1"
+        "branch" : "develop",
+        "revision" : "b5430564b1d55adab3c331fb7574445a84bd4ceb"
       }
     },
     {
