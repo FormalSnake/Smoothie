@@ -47,12 +47,13 @@ class BatteryMonitor: MonitorProtocol {
         }
 
         let percentage = batteryService.percentage
+        let timeRemaining = batteryService.timeRemaining
         var description = String(
             format: "%d:%02d Remaining",
-            arguments: [(percentage ?? 0) / 60, (percentage ?? 0) % 60]
+            arguments: [(timeRemaining ?? 0) / 60, (timeRemaining ?? 0) % 60]
         )
 
-        if percentage == nil {
+        if timeRemaining == nil {
             description = "Calculating time remaining..."
         }
 
