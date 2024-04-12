@@ -72,18 +72,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         } else if overrideWillShowPopup {
             self.showPopup(
                 title: "Battery Percentage",
-                description: "\(self.batteryTimeRemaining)"
+                description: "\(self.batteryTimeRemaining)",
+                seconds: 5
             )
             
             // Adding 0.5 seconds makes this smoother because the app seems to freeze for
             // a split second when the power adapter is plugged in (This is a MacOS issue)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            /*DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.showPopup(
                     title: "Battery Percentage",
                     description: "\(self.batteryTimeRemaining)",
                     seconds: 5
                 )
-            }
+            }*/
         }
     }
 }
