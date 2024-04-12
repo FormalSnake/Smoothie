@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A25C7EE2BC92160009B708A /* BatteryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A25C7ED2BC92160009B708A /* BatteryError.swift */; };
+		7A25C7F02BC9217F009B708A /* BatteryRegistryPropertyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A25C7EF2BC9217F009B708A /* BatteryRegistryPropertyKey.swift */; };
+		7A25C7F22BC921D6009B708A /* BatteryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A25C7F12BC921D6009B708A /* BatteryService.swift */; };
+		7A25C7F42BC921F0009B708A /* BatteryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A25C7F32BC921F0009B708A /* BatteryState.swift */; };
+		7A25C7F62BC92203009B708A /* Percentage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A25C7F52BC92203009B708A /* Percentage.swift */; };
+		7A25C7F82BC92212009B708A /* PowerSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A25C7F72BC92212009B708A /* PowerSource.swift */; };
+		7A25C7FA2BC92221009B708A /* TimeRemaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A25C7F92BC92221009B708A /* TimeRemaining.swift */; };
 		7AB910A42BC8408200745184 /* SmoothieApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB910A32BC8408200745184 /* SmoothieApp.swift */; };
 		7AB910A62BC8408200745184 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB910A52BC8408200745184 /* ContentView.swift */; };
 		7AB910A82BC8408400745184 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7AB910A72BC8408400745184 /* Assets.xcassets */; };
@@ -17,6 +24,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7A25C7ED2BC92160009B708A /* BatteryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryError.swift; sourceTree = "<group>"; };
+		7A25C7EF2BC9217F009B708A /* BatteryRegistryPropertyKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryRegistryPropertyKey.swift; sourceTree = "<group>"; };
+		7A25C7F12BC921D6009B708A /* BatteryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryService.swift; sourceTree = "<group>"; };
+		7A25C7F32BC921F0009B708A /* BatteryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryState.swift; sourceTree = "<group>"; };
+		7A25C7F52BC92203009B708A /* Percentage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Percentage.swift; sourceTree = "<group>"; };
+		7A25C7F72BC92212009B708A /* PowerSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerSource.swift; sourceTree = "<group>"; };
+		7A25C7F92BC92221009B708A /* TimeRemaining.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRemaining.swift; sourceTree = "<group>"; };
 		7AB910A02BC8408200745184 /* Smoothie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smoothie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AB910A32BC8408200745184 /* SmoothieApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmoothieApp.swift; sourceTree = "<group>"; };
 		7AB910A52BC8408200745184 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -39,6 +53,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7A25C7EC2BC92151009B708A /* Battery Management */ = {
+			isa = PBXGroup;
+			children = (
+				7A25C7ED2BC92160009B708A /* BatteryError.swift */,
+				7A25C7F12BC921D6009B708A /* BatteryService.swift */,
+				7A25C7F32BC921F0009B708A /* BatteryState.swift */,
+				7A25C7F52BC92203009B708A /* Percentage.swift */,
+				7A25C7F72BC92212009B708A /* PowerSource.swift */,
+				7A25C7F92BC92221009B708A /* TimeRemaining.swift */,
+				7A25C7EF2BC9217F009B708A /* BatteryRegistryPropertyKey.swift */,
+			);
+			path = "Battery Management";
+			sourceTree = "<group>";
+		};
 		7AB910972BC8408200745184 = {
 			isa = PBXGroup;
 			children = (
@@ -61,6 +89,7 @@
 				7AB910A32BC8408200745184 /* SmoothieApp.swift */,
 				A8C0058D2BC89BCC0019E1CD /* AppDelegate.swift */,
 				7AB910A52BC8408200745184 /* ContentView.swift */,
+				7A25C7EC2BC92151009B708A /* Battery Management */,
 				7AB910A72BC8408400745184 /* Assets.xcassets */,
 				7AB910AC2BC8408500745184 /* Smoothie.entitlements */,
 				7AB910A92BC8408500745184 /* Preview Content */,
@@ -155,8 +184,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				A8C0058E2BC89BCC0019E1CD /* AppDelegate.swift in Sources */,
+				7A25C7F62BC92203009B708A /* Percentage.swift in Sources */,
 				7AB910A62BC8408200745184 /* ContentView.swift in Sources */,
+				7A25C7F82BC92212009B708A /* PowerSource.swift in Sources */,
+				7A25C7F42BC921F0009B708A /* BatteryState.swift in Sources */,
+				7A25C7EE2BC92160009B708A /* BatteryError.swift in Sources */,
 				7AB910A42BC8408200745184 /* SmoothieApp.swift in Sources */,
+				7A25C7F02BC9217F009B708A /* BatteryRegistryPropertyKey.swift in Sources */,
+				7A25C7F22BC921D6009B708A /* BatteryService.swift in Sources */,
+				7A25C7FA2BC92221009B708A /* TimeRemaining.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +327,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Smoothie/Preview Content\"";
-				DEVELOPMENT_TEAM = 8P53VAPX2H;
+				DEVELOPMENT_TEAM = 25XTQA4Y6S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -318,7 +354,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Smoothie/Preview Content\"";
-				DEVELOPMENT_TEAM = 8P53VAPX2H;
+				DEVELOPMENT_TEAM = 25XTQA4Y6S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
