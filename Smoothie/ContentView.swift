@@ -8,19 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var appDelegate: AppDelegate
+
     var body: some View {
         VStack {
-            Button( action: {
-                NotchManager().showNotch(content: ContentView(), title: "Trigger notch", description: "Notchception??", showLength: 2)
-            }, label: {
-                Text("Trigger the Notch!")
+            Button {
+                appDelegate.showPopup("TEST!")
+            } label: {
+                Text("Show popup")
             }
-            )
+
         }
         .padding()
     }
-}
-
-#Preview {
-    ContentView()
 }
