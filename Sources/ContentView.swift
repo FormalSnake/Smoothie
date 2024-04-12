@@ -12,12 +12,7 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            Button {
-                appDelegate.showPopup(title: "TEST!")
-            } label: {
-                Text("Show popup")
-            }
-
+            Text("This window is useless :3")
         }
         .padding()
     }

@@ -32,14 +32,35 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         audioOutputMonitor.addObservers()
     }
     
-    func showPopup(title: String, description: String = "", seconds: Double = 2, image: String = "figure") {
+    func showPopup(title: String, description: String?, image: Image?, seconds: Double = 2) {
         if let dynamicNotch = self.dynamicNotch,
            dynamicNotch.isVisible {
             dynamicNotch.hide()
         }
 
         dynamicNotch = DynamicNotchInfo(
-            systemImage: image,
+            icon: image,
+            title: title,
+            description: description
+        )
+
+        dynamicNotch?.show(for: seconds)
+    }
+
+    func showPopup(title: String, description: String?, percentage: Double, color: Color = .accentColor, seconds: Double = 2) {
+        if let dynamicNotch = self.dynamicNotch,
+           dynamicNotch.isVisible {
+            dynamicNotch.hide()
+        }
+
+        let view = ProgressRing(to: .constant(percentage), color: color).overlay {
+            Text("\(Int(percentage * 100))%")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+
+        dynamicNotch = DynamicNotchInfo(
+            iconView: view,
             title: title,
             description: description
         )

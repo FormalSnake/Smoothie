@@ -67,13 +67,16 @@ class BatteryMonitor: MonitorProtocol {
             }
         }
 
-//        if let appDelegate = NSApp.delegate as? AppDelegate {
-//            appDelegate.showPopup(
-//                title: "Battery Percentage",
-//                description: description,
-//                seconds: 2
-//            )
-//        }
+        if let appDelegate = NSApp.delegate as? AppDelegate {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                appDelegate.showPopup(
+                    title: "Battery Percentage",
+                    description: description,
+                    percentage: Double(percentage ?? 0) / 100,
+                    color: percentage ?? 0 < 20 ? .red : .green
+                )
+            }
+        }
 
         self.lastBatteryPowerSource = batteryService.powerSource
     }

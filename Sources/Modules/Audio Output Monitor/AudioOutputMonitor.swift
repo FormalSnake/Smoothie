@@ -50,7 +50,11 @@ class AudioOutputMonitor: MonitorProtocol {
         self.lastDevice = defaultOutputDevice
 
         if let appDelegate = AppDelegate.shared {
-            appDelegate.showPopup(title: defaultOutputDevice.name, description: "Connected", image: outputImage)
+            appDelegate.showPopup(
+                title: defaultOutputDevice.name,
+                description: "Connected",
+                image: Image(systemName: outputImage)
+            )
         }
     }
 }
