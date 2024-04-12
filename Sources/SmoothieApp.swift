@@ -12,7 +12,7 @@ struct SmoothieApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
-        MenuBarExtra("Smoothie", systemImage: "takeoutbag.and.cup.and.straw") {
+        MenuBarExtra("Smoothie", systemImage: "takeoutbag.and.cup.and.straw.fill") {
             Button("Audio Output Monitor") {
                 appDelegate.audioOutputMonitor.show()
             }
@@ -28,9 +28,5 @@ struct SmoothieApp: App {
             })
         }
         .menuBarExtraStyle(.menu)
-
-        WindowGroup {
-            ContentView(appDelegate: appDelegate)
-        }
     }
 }
