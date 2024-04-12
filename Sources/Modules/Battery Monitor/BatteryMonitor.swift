@@ -25,7 +25,7 @@ class BatteryMonitor: MonitorProtocol {
             object: nil,
             queue: .main
         ) { _ in
-            self.show()
+            self.updateData()
         }
     }
 

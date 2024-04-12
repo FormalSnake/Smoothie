@@ -14,7 +14,6 @@ class AudioOutputMonitor: MonitorProtocol {
 
     func addObservers() {
         self.lastDevice = sca.defaultOutputDevice
-        self.updateData()
 
         NotificationCenter.default.addObserver(forName: .defaultOutputDeviceChanged, object: nil, queue: .main) { _ in
             self.updateData()
