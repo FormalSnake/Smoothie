@@ -25,13 +25,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         print("Application did finish launching")
-        guard let screenFrame = NSScreen.screenWithMouse else { return }
-
-       let topLeftNotchpadding: CGFloat = screenFrame.auxiliaryTopLeftArea?.width ?? 0
-       let topRightNotchpadding: CGFloat = screenFrame.auxiliaryTopRightArea?.width ?? 0
-
-       self.notchHeight = screenFrame.safeAreaInsets.top
-       self.notchWidth = screenFrame.frame.width - topLeftNotchpadding - topRightNotchpadding
 
        do {
            try self.batteryService = BatteryService()
