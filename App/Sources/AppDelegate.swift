@@ -23,6 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     let batteryMonitor = BatteryMonitor()
     let audioOutputMonitor = AudioOutputMonitor()
     let nowPlayingMonitor = NowPlayingMonitor()
+    let bluetoothMonitor = BluetoothMonitor()
 
     var dynamicNotch: DynamicNotch?
 
@@ -31,7 +32,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
 
         batteryMonitor.addObservers()
         audioOutputMonitor.addObservers()
-//        nowPlayingMonitor.addObservers()
+        nowPlayingMonitor.addObservers()
+        //bluetoothMonitor.addObservers()
     }
     
     func showPopup(title: String, description: String?, image: Image?, seconds: Double = 2) {
