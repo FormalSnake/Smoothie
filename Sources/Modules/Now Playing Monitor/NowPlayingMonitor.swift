@@ -8,6 +8,7 @@
 import SwiftUI
 import DynamicNotchKit
 
+// https://github.com/JohnCoates/Aerial/blob/6b0f608c84511f86efec0de85aced2ba060bc41c/Aerial/Source/Models/Music/Music.swift#L36
 class NowPlayingMonitor: MonitorProtocol {
     private var lastPlayedItem: NowPlayingItem?
 
