@@ -10,4 +10,4 @@ tuist install	# Install dependencies
 tuist generate	# Make .xcodeproj file
 ```
 
-This should automatically open the Xcode project for you, and you’re good to go! All of the source code is inside `Sources/`, and all the assets (eg. where the app icon would go) are inside `Resources/` :D
+This should automatically open the Xcode project for you, and you’re good to go! All of the source code is inside `Apps/`, and you can ignore the auto-generated folder called `Derived` :D
