@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
 
         batteryMonitor.addObservers()
         audioOutputMonitor.addObservers()
-        nowPlayingMonitor.addObservers()
+//        nowPlayingMonitor.addObservers()
     }
     
     func showPopup(title: String, description: String?, image: Image?, seconds: Double = 2) {
