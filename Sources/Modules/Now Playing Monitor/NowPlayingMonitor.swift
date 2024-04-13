@@ -61,7 +61,6 @@ class NowPlayingMonitor: MonitorProtocol {
 
         // MARK: Register notification observer
         MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main) { information in
-
             let nowPlayingItem = self.processNowPlayingInfo(information)
 
             if nowPlayingItem != self.lastPlayedItem {
@@ -78,11 +77,10 @@ class NowPlayingMonitor: MonitorProtocol {
         }
 
         if let appDelegate = AppDelegate.shared {
-
-        if let dynamicNotch = appDelegate.dynamicNotch,
-            dynamicNotch.isVisible {
-            return
-        }
+            if let dynamicNotch = appDelegate.dynamicNotch,
+                dynamicNotch.isVisible {
+                return
+            }
             appDelegate.dynamicNotch = DynamicNotch(content: NowPlayingView(lastPlayedItem))
             appDelegate.dynamicNotch?.show(for: 2)
         }
