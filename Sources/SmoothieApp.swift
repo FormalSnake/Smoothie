@@ -21,6 +21,10 @@ struct SmoothieApp: App {
                 appDelegate.batteryMonitor.show()
             }
 
+            Button("Now Playing Monitor") {
+                appDelegate.nowPlayingMonitor.show()
+            }
+
             Button(action: {
                 NSApp.terminate(self)
             }, label: {

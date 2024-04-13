@@ -22,14 +22,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
 
     let batteryMonitor = BatteryMonitor()
     let audioOutputMonitor = AudioOutputMonitor()
+    let nowPlayingMonitor = NowPlayingMonitor()
 
-    private var dynamicNotch: DynamicNotch?
+    var dynamicNotch: DynamicNotch?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApplication.shared.delegate = self
 
         batteryMonitor.addObservers()
         audioOutputMonitor.addObservers()
+        nowPlayingMonitor.addObservers()
     }
     
     func showPopup(title: String, description: String?, image: Image?, seconds: Double = 2) {
