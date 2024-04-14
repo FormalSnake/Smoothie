@@ -15,6 +15,9 @@ struct SmoothieApp: App {
         WindowGroup {
             SettingsView()
         }
+        .windowResizability(.contentSize)
+        .windowStyle(.hiddenTitleBar)
+
         MenuBarExtra("Smoothie", systemImage: "takeoutbag.and.cup.and.straw.fill") {
             Button("Audio Output Monitor") {
                 appDelegate.audioOutputMonitor.show()
@@ -27,7 +30,9 @@ struct SmoothieApp: App {
             Button("Now Playing Monitor") {
                 appDelegate.nowPlayingMonitor.show()
             }
+
             Divider()
+
             Button(action: {
                 NSApp.terminate(self)
             }, label: {
@@ -38,18 +43,30 @@ struct SmoothieApp: App {
     }
 }
 
-struct SettingsView: View{
-    var body: some View{
+struct SettingsView: View {
+    @State private var selection: Int? = 0
+
+    var body: some View {
         NavigationView {
-            List {
-                NavigationLink(destination: SettingsBodyView()) {
+            List(selection: $selection) {
+                NavigationLink(
+                    destination: SettingsBodyView(),
+                    tag: 0,
+                    selection: $selection
+                ) {
                     Label("Settings", systemImage: "gear")
                 }
             }
+            .background(
+                VisualEffectView(material: .fullScreenUI, blendingMode: .behindWindow)
+                    .ignoresSafeArea()
+            )
             .listStyle(SidebarListStyle())
             .navigationTitle("Sidebar")
-            SettingsBodyView()
+            .frame(minWidth: 200)
         }
+        .frame(width: 1000, height: 680)
+        .fixedSize()
     }
 }
 
@@ -57,14 +74,11 @@ struct SettingsBodyView: View{
     @State var sample: Bool = false
     @State var currentStyle: String = "Automatic"
     var body: some View{
-        Form{
+        Form {
             Section {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 704, height: 299)
-                    .background(
-                        AsyncImage(url: URL(string: "https://via.placeholder.com/704x299"))
-                    )
+                AsyncImage(url: URL(string: "https://via.placeholder.com/704x299"))
+                    .aspectRatio(contentMode: .fill)
+
                 Toggle("Slide transition", isOn: $sample)
                 Toggle("High contrast", isOn: $sample)
                 Picker("Selected icon:", selection: $currentStyle) {
@@ -78,9 +92,33 @@ struct SettingsBodyView: View{
         }
         .formStyle(.grouped)
         .scrollDisabled(false)
+        .scrollContentBackground(.hidden)
+        .background(
+            VisualEffectView(material: .fullScreenUI, blendingMode: .behindWindow)
+                .ignoresSafeArea()
+        )
     }
 }
 
 #Preview {
     SettingsView()
+}
+
+struct VisualEffectView: NSViewRepresentable {
+    let material: NSVisualEffectView.Material
+    let blendingMode: NSVisualEffectView.BlendingMode
+
+    func makeNSView(context: Context) -> NSVisualEffectView {
+        let visualEffectView = NSVisualEffectView()
+        visualEffectView.material = material
+        visualEffectView.blendingMode = blendingMode
+        visualEffectView.state = NSVisualEffectView.State.active
+        visualEffectView.isEmphasized = true
+        return visualEffectView
+    }
+
+    func updateNSView(_ visualEffectView: NSVisualEffectView, context: Context) {
+        visualEffectView.material = material
+        visualEffectView.blendingMode = blendingMode
+    }
 }
