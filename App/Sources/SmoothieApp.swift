@@ -6,9 +6,17 @@
 //
 
 import SwiftUI
+import Sparkle
 
 @main
 struct SmoothieApp: App {
+    private let updaterController: SPUStandardUpdaterController
+    
+    init() {
+        // If you want to start the updater manually, pass false to startingUpdater and call .startUpdater() later
+        // This is where you can also pass an updater delegate if you need one
+        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+    }
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
@@ -17,7 +25,7 @@ struct SmoothieApp: App {
         }
         .windowResizability(.contentSize)
         .windowStyle(.hiddenTitleBar)
-
+        
         MenuBarExtra("Smoothie", systemImage: "takeoutbag.and.cup.and.straw.fill") {
             Button("Audio Output Monitor") {
                 appDelegate.audioOutputMonitor.show()
@@ -30,9 +38,9 @@ struct SmoothieApp: App {
             Button("Now Playing Monitor") {
                 appDelegate.nowPlayingMonitor.show()
             }
-
+            
             Divider()
-
+            
             Button(action: {
                 NSApp.terminate(self)
             }, label: {
@@ -45,16 +53,30 @@ struct SmoothieApp: App {
 
 struct SettingsView: View {
     @State private var selection: Int? = 0
-
+    
     var body: some View {
         NavigationView {
             List(selection: $selection) {
                 NavigationLink(
-                    destination: SettingsBodyView(),
+                    destination: GeneralView(),
                     tag: 0,
                     selection: $selection
                 ) {
-                    Label("Settings", systemImage: "gear")
+                    Label("General", image: "general")
+                }
+                NavigationLink(
+                    destination: AppearanceView(),
+                    tag: 1,
+                    selection: $selection
+                ) {
+                    Label("Appearance", image: "appearance")
+                }
+                NavigationLink(
+                    destination: UpdateView(),
+                    tag: 2,
+                    selection: $selection
+                ) {
+                    Label("Updates", image: "updates")
                 }
             }
             .background(
@@ -70,7 +92,7 @@ struct SettingsView: View {
     }
 }
 
-struct SettingsBodyView: View{
+struct AppearanceView: View{
     @State var sample: Bool = false
     @State var currentStyle: String = "Automatic"
     var body: some View{
@@ -78,7 +100,7 @@ struct SettingsBodyView: View{
             Section {
                 AsyncImage(url: URL(string: "https://via.placeholder.com/704x299"))
                     .aspectRatio(contentMode: .fill)
-
+                
                 Toggle("Slide transition", isOn: $sample)
                 Toggle("High contrast", isOn: $sample)
                 Picker("Selected icon:", selection: $currentStyle) {
@@ -100,6 +122,82 @@ struct SettingsBodyView: View{
     }
 }
 
+struct GeneralView: View{
+    @State var launchAtLogin: Bool = true
+    @State var hideMenuIcon: Bool = false
+    
+    var body: some View{
+        Form {
+            Section {
+                Toggle("Launch at login", isOn: $launchAtLogin)
+                Toggle("Hide menubar icon", isOn: $hideMenuIcon)
+            }
+        }
+        .formStyle(.grouped)
+        .scrollDisabled(false)
+        .scrollContentBackground(.hidden)
+        .background(
+            VisualEffectView(material: .fullScreenUI, blendingMode: .behindWindow)
+                .ignoresSafeArea()
+        )
+    }
+}
+
+struct UpdateView: View{
+    @EnvironmentObject var updater: SoftwareUpdater
+    @State var automaticallyChecksForUpdates: Bool = true
+    @State var includeDevelopmentVersions: Bool = false
+    
+    var body: some View{
+        Form {
+            Section(content: {
+                Toggle("Automatically check for updates", isOn: $automaticallyChecksForUpdates)
+                Toggle("Include development versions", isOn: $includeDevelopmentVersions)
+            }, header: {
+                HStack {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Updates")
+                        Button(action: {
+                            let pasteboard = NSPasteboard.general
+                            pasteboard.clearContents()
+                            pasteboard.setString(
+                                "Version",
+                                forType: NSPasteboard.PasteboardType.string
+                            )
+                        }, label: {
+                            let versionText = String(
+                                localized: "Current version:)"
+                            )
+                            HStack {
+                                Text("\(versionText) \(Image(systemName: "doc.on.clipboard"))")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                        })
+                        .buttonStyle(.plain)
+                    }
+                    
+                    Spacer()
+                    
+                    Button("Check for Updates…") {
+                        updater.checkForUpdates()
+                    }
+                    .buttonStyle(.link)
+                    .foregroundStyle(Color.accentColor)
+                }
+            })
+        }
+        .formStyle(.grouped)
+        .scrollDisabled(false)
+        .scrollContentBackground(.hidden)
+        .background(
+            VisualEffectView(material: .fullScreenUI, blendingMode: .behindWindow)
+                .ignoresSafeArea()
+        )
+    }
+}
+
+
 #Preview {
     SettingsView()
 }
@@ -107,7 +205,7 @@ struct SettingsBodyView: View{
 struct VisualEffectView: NSViewRepresentable {
     let material: NSVisualEffectView.Material
     let blendingMode: NSVisualEffectView.BlendingMode
-
+    
     func makeNSView(context: Context) -> NSVisualEffectView {
         let visualEffectView = NSVisualEffectView()
         visualEffectView.material = material
@@ -116,7 +214,7 @@ struct VisualEffectView: NSViewRepresentable {
         visualEffectView.isEmphasized = true
         return visualEffectView
     }
-
+    
     func updateNSView(_ visualEffectView: NSVisualEffectView, context: Context) {
         visualEffectView.material = material
         visualEffectView.blendingMode = blendingMode
