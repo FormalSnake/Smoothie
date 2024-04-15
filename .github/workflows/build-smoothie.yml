@@ -23,11 +23,12 @@ jobs:
         run: |
           brew install xcbeautify create-dmg tuist
           
-      - name: Tuist stuff
-        run: |
-          tuist install \
-          tuist generate \
-
+      - name: Tuist install
+        run: tuist install
+        
+      - name: Tuist generate
+        run: tuist generate
+        
       - name: Build Smoothie.app
         run: |
            set -o pipefail && xcodebuild archive \
