@@ -22,4 +22,9 @@ jobs:
         uses: josephrodriguez/swift-release@v1
         with:
           token: ${{ secrets.TOKEN }}
+          owner: josephrodriguez
+          repo: Smoothie
+          tag: v1.0.0
+          name: Release 1.0.0
+          body: Initial release of the project.
       
