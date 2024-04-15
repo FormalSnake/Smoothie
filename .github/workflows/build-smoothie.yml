@@ -22,11 +22,14 @@ jobs:
       - name: Install dependencies
         run: |
           brew install xcbeautify create-dmg tuist
+          
+      - name: Tuist stuff
+        run: |
+          tuist install \
+          tuist generate \
 
       - name: Build Smoothie.app
         run: |
-           tuist install \
-           tuist generate \
            set -o pipefail && xcodebuild archive \
             -project ./Smoothie.xcodeproj \
             -destination "generic/platform=macOS" \
