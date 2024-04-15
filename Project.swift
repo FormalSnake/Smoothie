@@ -12,12 +12,29 @@ let project = Project(
             destinations: .macOS,
             product: .app,
             bundleId: "com.formalsnake.Smoothie",
-            sources: ["Sources/**"],
-            resources: ["Resources/**"],
+            deploymentTargets: .macOS("13.0"),
+            sources: ["App/Sources/**"],
+            resources: ["App/Resources/**"],
             dependencies: [
                 .package(product: "DynamicNotchKit", type: .runtime),
                 .package(product: "SimplyCoreAudio", type: .runtime),
-            ]
+                
+            ],
+            settings: Settings.settings(
+                base: [
+                    "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
+                    "CODE_SIGN_IDENTITY": "Apple Development",
+                    "CODE_SIGN_STYLE": "Automatic",
+                    "ENABLE_HARDENED_RUNTIME": true,
+                    "PRODUCT_NAME": "Smoothie"
+                ],
+                configurations: [
+                    .release(name: "Release")
+                ]
+            )
         ),
+    ],
+    additionalFiles: [
+        .glob(pattern: "README.md")
     ]
 )
