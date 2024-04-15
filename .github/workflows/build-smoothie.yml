@@ -1,0 +1,74 @@
+name: Build Smoothie
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Smoothie
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+    
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Install dependencies
+        run: |
+          brew install xcbeautify create-dmg tuist
+
+      - name: Build Smoothie.app
+        run: |
+           set -o pipefail && xcodebuild archive \
+            -project ./Smoothie.xcodeproj \
+            -destination "generic/platform=macOS" \
+            -scheme "Smoothie" \
+            -configuration Debug \
+            -archivePath "./Build/Smoothie.xcarchive" \
+            -xcconfig "./Smoothie/Config.xcconfig" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_IDENTITY= \
+            CODE_SIGN_ENTITLEMENTS= \
+            GCC_OPTIMIZATION_LEVEL=s \
+            SWIFT_OPTIMIZATION_LEVEL=-O \
+            GCC_GENERATE_DEBUGGING_SYMBOLS=YES \
+            DEBUG_INFORMATION_FORMAT=dwarf-with-dsym | xcbeautify
+
+      - name: Make DMG
+        run: |
+          create-dmg \
+            --volname "Smoothie" \
+            --background "./assets/graphics/dmg-background.png" \
+            --window-pos 200 120 \
+            --window-size 660 400 \
+            --icon-size 160 \
+            --icon "Smoothie.app" 180 170 \
+            --hide-extension "Smoothie.app" \
+            --app-drop-link 480 170 \
+            --no-internet-enable \
+            "./Build/Smoothie.dmg" \
+            "./Build/Smoothie.xcarchive/Products/Applications/"
+
+      - name: Upload DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: Smoothie.dmg
+          path: Build/Smoothie.dmg
+
+      - name: Make ZIP
+        run: |
+          cp -R ./Build/Smoothie.xcarchive/Products/Applications/ ./Build/
+          ditto -c -k --sequesterRsrc --keepParent ./Build/Smoothie.app ./Build/Smoothie.zip
+ 
+      - name: Upload ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: Smoothie.zip
+          path: Build/Smoothie.zip
