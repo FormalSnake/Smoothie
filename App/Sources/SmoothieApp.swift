@@ -7,16 +7,10 @@
 
 import SwiftUI
 import Sparkle
+import Defaults
 
 @main
 struct SmoothieApp: App {
-    private let updaterController: SPUStandardUpdaterController
-    
-    init() {
-        // If you want to start the updater manually, pass false to startingUpdater and call .startUpdater() later
-        // This is where you can also pass an updater delegate if you need one
-        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
-    }
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
@@ -48,6 +42,12 @@ struct SmoothieApp: App {
             })
         }
         .menuBarExtraStyle(.menu)
+    }
+}
+
+extension Bundle {
+    var buildNumber: String {
+        return infoDictionary?["CFBundleVersion"] as! String
     }
 }
 
@@ -93,16 +93,18 @@ struct SettingsView: View {
 }
 
 struct AppearanceView: View{
-    @State var sample: Bool = false
-    @State var currentStyle: String = "Automatic"
+    @Default(.slideTransition) var slideTransition
+    @Default(.highContrast) var highContrast
+    @Default(.currentStyle) var currentStyle
+
     var body: some View{
         Form {
             Section {
                 AsyncImage(url: URL(string: "https://via.placeholder.com/704x299"))
                     .aspectRatio(contentMode: .fill)
                 
-                Toggle("Slide transition", isOn: $sample)
-                Toggle("High contrast", isOn: $sample)
+                Toggle("Slide transition", isOn: $slideTransition)
+                Toggle("High contrast", isOn: $highContrast)
                 Picker("Selected icon:", selection: $currentStyle) {
                     HStack{
                         Label("Automatic", systemImage: "gear")
@@ -123,8 +125,8 @@ struct AppearanceView: View{
 }
 
 struct GeneralView: View{
-    @State var launchAtLogin: Bool = true
-    @State var hideMenuIcon: Bool = false
+    @Default(.launchAtLogin) var launchAtLogin
+    @Default(.hideMenuIcon) var hideMenuIcon
     
     var body: some View{
         Form {
@@ -144,9 +146,8 @@ struct GeneralView: View{
 }
 
 struct UpdateView: View{
-    @EnvironmentObject var updater: SoftwareUpdater
-    @State var automaticallyChecksForUpdates: Bool = true
-    @State var includeDevelopmentVersions: Bool = false
+    @Default(.automaticallyChecksForUpdates) var automaticallyChecksForUpdates
+    @Default(.includeDevelopmentVersions) var includeDevelopmentVersions
     
     var body: some View{
         Form {
@@ -166,7 +167,7 @@ struct UpdateView: View{
                             )
                         }, label: {
                             let versionText = String(
-                                localized: "Current version:)"
+                                localized: "Current version: \(Bundle.main.buildNumber)"
                             )
                             HStack {
                                 Text("\(versionText) \(Image(systemName: "doc.on.clipboard"))")
@@ -180,7 +181,7 @@ struct UpdateView: View{
                     Spacer()
                     
                     Button("Check for Updates…") {
-                        updater.checkForUpdates()
+                        //updater.checkForUpdates()
                     }
                     .buttonStyle(.link)
                     .foregroundStyle(Color.accentColor)
