@@ -25,6 +25,7 @@ jobs:
 
       - name: Build Smoothie.app
         run: |
+           tuist build \
            set -o pipefail && xcodebuild archive \
             -project ./Smoothie.xcodeproj \
             -destination "generic/platform=macOS" \
