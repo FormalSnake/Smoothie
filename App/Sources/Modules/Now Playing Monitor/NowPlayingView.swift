@@ -8,25 +8,22 @@
 import SwiftUI
 
 struct NowPlayingView: View {
-    @State var artwork: NSImage?
-    @State var title: String = ""
-    @State var description: String?
+    @State var nowPlayingItem: NowPlayingMonitor.NowPlayingItem
 
     init(_ item: NowPlayingMonitor.NowPlayingItem) {
-        self._artwork = State(initialValue: item.artwork)
-        self._title = State(initialValue: item.title)
-        self._description = State(initialValue: "\(item.album)")
+        self._nowPlayingItem = State(initialValue: item)
     }
 
     var body: some View {
         HStack {
             ZStack {
-                if let artwork = self.artwork {
+                if let artwork = nowPlayingItem.artwork {
                     Image(nsImage: artwork)
                         .resizable()
                         .frame(width: 50, height: 50)
                 } else {
                     ProgressView()
+                        .frame(width: 50, height: 50)
                 }
             }
             .clipShape(.rect(cornerRadius: 10))
@@ -35,35 +32,26 @@ struct NowPlayingView: View {
                 .frame(width: 10)
 
             VStack(alignment: .leading) {
-                Text(title)
+                Text(nowPlayingItem.title)
                     .font(.headline)
 
-                if let description = description {
-                    Text(description)
-                        .foregroundStyle(.secondary)
-                        .font(.caption2)
-                }
+                Text(nowPlayingItem.album)
+                    .foregroundStyle(.secondary)
+                    .font(.caption2)
             }
 
             Spacer()
         }
         .padding(10)
-        .onReceive(.nowPlayingChanged) { obj in
-            if let userInfo = obj.userInfo {
-
-                if let album = userInfo["kMRMediaRemoteNowPlayingInfoAlbum"] {
-                    self.description = "\(album as? String ?? "")"
-                }
-
-                if let info = userInfo["kMRMediaRemoteNowPlayingInfoTitle"] {
-                    self.title = info as? String ?? ""
-                }
-
-                if let info = userInfo["kMRMediaRemoteNowPlayingInfoArtworkData"],
-                   let artworkData = info as? Data {
-
-                    self.artwork = NSImage(data: artworkData) ?? NSImage()
-                }
+        .onReceive(.nowPlayingChanged) { notification in
+            if let object = notification.object,
+               let item = object as? NowPlayingMonitor.NowPlayingItem {
+                self.nowPlayingItem = NowPlayingMonitor.NowPlayingItem(
+                    artist: item.artist,
+                    title: item.title,
+                    album: item.album,
+                    artwork: item.artwork ?? self.nowPlayingItem.artwork
+                )
             }
         }
     }

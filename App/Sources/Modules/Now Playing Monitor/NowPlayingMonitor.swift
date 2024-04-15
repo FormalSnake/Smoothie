@@ -10,47 +10,111 @@ import DynamicNotchKit
 
 // https://github.com/JohnCoates/Aerial/blob/6b0f608c84511f86efec0de85aced2ba060bc41c/Aerial/Source/Models/Music/Music.swift#L36
 class NowPlayingMonitor: MonitorProtocol {
-    private var lastPlayedItem: NowPlayingItem?
+    private var nowPlayingItem: NowPlayingItem?
 
-    var mediaRemoteBundle: CFBundle {
+    func addObservers() {
+        let MRMediaRemoteRegisterForNowPlayingNotifications = getMRMediaRemoteRegisterForNowPlayingNotificationsFunction()
+
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name(rawValue: "kMRMediaRemoteNowPlayingInfoDidChangeNotification"),
+            object: nil,
+            queue: nil
+        ) { _ in
+            self.updateData()
+        }
+
+        MRMediaRemoteRegisterForNowPlayingNotifications(DispatchQueue.main)
+
+        self.updateData()
+    }
+    
+    func updateData() {
+        let MRMediaRemoteGetNowPlayingInfo = getMRMediaRemoteGetNowPlayingInfoFunction()
+        MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main) { information in
+            let newItem = self.getNowPlayingItem(information)
+
+            if let newItem = newItem,
+               newItem.isDifferentSong(from: self.nowPlayingItem) {
+
+                print("TEATR")
+                self.nowPlayingItem = newItem
+                self.show()
+            }
+
+            // If the now playing view is open, this notification will update it.
+            NotificationCenter.default.post(name: .nowPlayingChanged, object: newItem)
+        }
+    }
+    
+    func show() {
+        guard let item = nowPlayingItem else { return }
+
+        if let appDelegate = AppDelegate.shared {
+            if let dynamicNotch = appDelegate.dynamicNotch,
+                dynamicNotch.isVisible {
+                return
+            }
+            appDelegate.dynamicNotch = DynamicNotch(content: NowPlayingView(item))
+            appDelegate.dynamicNotch?.show(for: 2)
+        }
+    }
+}
+
+extension NowPlayingMonitor {
+    private var mediaRemoteBundle: CFBundle {
         CFBundleCreate(
           kCFAllocatorDefault,
           NSURL(fileURLWithPath: "/System/Library/PrivateFrameworks/MediaRemote.framework")
         )
     }
 
-    func addObservers() {
+    private func getNowPlayingItem(_ information: [String: Any]) -> NowPlayingMonitor.NowPlayingItem? {
+        guard
+            let artist = information["kMRMediaRemoteNowPlayingInfoArtist"] as? String,
+            let title = information["kMRMediaRemoteNowPlayingInfoTitle"] as? String,
+            let album = information["kMRMediaRemoteNowPlayingInfoAlbum"] as? String
+        else {
+            return nil
+        }
+
+        // Image is optional
+        var image: NSImage?
+        if let data = information["kMRMediaRemoteNowPlayingInfoArtworkData"] as? Data {
+            image = NSImage(data: data)
+        }
+
+        var nowPlayingItem: NowPlayingMonitor.NowPlayingItem? = NowPlayingMonitor.NowPlayingItem(
+            artist: artist,
+            title: title,
+            album: album,
+            artwork: image
+        )
+
+        return nowPlayingItem
+    }
+
+    private func getMRMediaRemoteRegisterForNowPlayingNotificationsFunction() -> @convention(c) (DispatchQueue) -> Void {
         let bundle = mediaRemoteBundle
 
-        // MARK: Get a function pointer for MRMediaRemoteRegisterForNowPlayingNotifications
-        let MRMediaRemoteRegisterForNowPlayingNotificationsPointer = CFBundleGetFunctionPointerForName(
-            bundle,
-            "MRMediaRemoteRegisterForNowPlayingNotifications" as CFString
-        )
+        guard let MRMediaRemoteRegisterForNowPlayingNotificationsPointer = CFBundleGetFunctionPointerForName(bundle, "MRMediaRemoteRegisterForNowPlayingNotifications" as CFString) else {
+            fatalError("Could not find MRMediaRemoteRegisterForNowPlayingNotifications")
+        }
+
         typealias MRMediaRemoteRegisterForNowPlayingNotificationsFunction = @convention(c) (DispatchQueue) -> Void
+
         let MRMediaRemoteRegisterForNowPlayingNotifications = unsafeBitCast(
             MRMediaRemoteRegisterForNowPlayingNotificationsPointer,
             to: MRMediaRemoteRegisterForNowPlayingNotificationsFunction.self
         )
 
-        // Add notification for when song changes!
-        NotificationCenter.default.addObserver(
-                    forName: NSNotification.Name(rawValue: "kMRMediaRemoteNowPlayingInfoDidChangeNotification"),
-                    object: nil,
-                    queue: nil
-        ) { _ in
-            self.updateData()
-        }
-
-        MRMediaRemoteRegisterForNowPlayingNotifications(DispatchQueue.main)
+        return MRMediaRemoteRegisterForNowPlayingNotifications
     }
-    
-    func updateData() {
+
+    private func getMRMediaRemoteGetNowPlayingInfoFunction() -> @convention(c) (DispatchQueue, @escaping ([String: Any]) -> Void) -> Void {
         let bundle = mediaRemoteBundle
 
-        // MARK: Get a function pointer for MRMediaRemoteGetNowPlayingInfo
         guard let MRMediaRemoteGetNowPlayingInfoPointer = CFBundleGetFunctionPointerForName(bundle, "MRMediaRemoteGetNowPlayingInfo" as CFString) else {
-            return
+            fatalError("Could not find MRMediaRemoteGetNowPlayingInfo")
         }
 
         typealias MRMediaRemoteGetNowPlayingInfoFunction = @convention(c) (DispatchQueue, @escaping ([String: Any]) -> Void) -> Void
@@ -60,62 +124,24 @@ class NowPlayingMonitor: MonitorProtocol {
             to: MRMediaRemoteGetNowPlayingInfoFunction.self
         )
 
-        // MARK: Register notification observer
-        MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main) { information in
-            let nowPlayingItem = self.processNowPlayingInfo(information)
-
-            if nowPlayingItem != self.lastPlayedItem {
-                self.lastPlayedItem = nowPlayingItem
-                self.show()
-            }
-
-        }
+        return MRMediaRemoteGetNowPlayingInfo
     }
-    
-    func show() {
-        guard let lastPlayedItem = self.lastPlayedItem else {
-            return
-        }
+}
 
-        if let appDelegate = AppDelegate.shared {
-            if let dynamicNotch = appDelegate.dynamicNotch,
-                dynamicNotch.isVisible {
-                return
-            }
-            appDelegate.dynamicNotch = DynamicNotch(content: NowPlayingView(lastPlayedItem))
-            appDelegate.dynamicNotch?.show(for: 2)
-        }
-    }
-
-    private func processNowPlayingInfo(_ information: [String: Any]) -> NowPlayingItem {
-        let artist = information["kMRMediaRemoteNowPlayingInfoArtist"] as? String
-        let title = information["kMRMediaRemoteNowPlayingInfoTitle"] as? String
-        let album = information["kMRMediaRemoteNowPlayingInfoAlbum"] as? String
-        var artwork: NSImage? = nil
-
-        if let artworkData = information["kMRMediaRemoteNowPlayingInfoArtworkData"] as? Data {
-            artwork = NSImage(data: artworkData)
-        }
-
-        NotificationCenter.default.post(name: .nowPlayingChanged, object: nil, userInfo: [
-            "kMRMediaRemoteNowPlayingInfoArtist": information["kMRMediaRemoteNowPlayingInfoArtist"] as Any,
-            "kMRMediaRemoteNowPlayingInfoTitle": information["kMRMediaRemoteNowPlayingInfoTitle"] as Any,
-            "kMRMediaRemoteNowPlayingInfoAlbum": information["kMRMediaRemoteNowPlayingInfoAlbum"] as Any,
-            "kMRMediaRemoteNowPlayingInfoArtworkData": information["kMRMediaRemoteNowPlayingInfoArtworkData"] as Any
-        ])
-
-        return NowPlayingItem(
-            artist: artist ?? "Unknown Artist",
-            title: title ?? "Unknown Title",
-            album: album ?? "Unknown Album",
-            artwork: artwork
-        )
-    }
-
+extension NowPlayingMonitor {
     struct NowPlayingItem: Hashable, Equatable {
         var artist: String
         var title: String
         var album: String
         var artwork: NSImage?
+
+        func isDifferentSong(from other: NowPlayingItem?) -> Bool {
+            guard let other = other else { return true }
+
+            return
+                self.artist != other.artist &&
+                self.title != other.title &&
+                self.album != other.album
+        }
     }
 }
