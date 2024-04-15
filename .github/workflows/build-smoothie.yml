@@ -27,7 +27,6 @@ jobs:
         run: |
            tuist install \
            tuist generate \
-           tuist build \
            set -o pipefail && xcodebuild archive \
             -project ./Smoothie.xcodeproj \
             -destination "generic/platform=macOS" \
