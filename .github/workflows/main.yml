@@ -1,18 +1,14 @@
 name: Smoothie
-
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
-  pull_request:
-
 jobs:
-  build:
-    name: Build
+  lint:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: dp221125/tuist-action@0.13.0
-        with:
-          command: 'build'
-          arguments: ''
+      - uses: actions/checkout@v3
+      - uses: jdx/mise-action@v2
