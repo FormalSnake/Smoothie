@@ -6,8 +6,8 @@ let project = Project(
         .remote(url: "https://github.com/MrKai77/DynamicNotchKit", requirement: .branch("main")),
         .remote(url: "https://github.com/rnine/SimplyCoreAudio", requirement: .branch("develop")),
         .remote(url: "https://github.com/sindresorhus/Defaults", requirement: .branch("main")),
-        .package(url: "https://github.com/orchetect/SettingsAccess", from: "1.4.0")
-        .remote(url: "https://github.com/sparkle-project/Sparkle", from: "2.6.0"),
+        .remote(url: "https://github.com/orchetect/SettingsAccess", requirement: .branch("main"))
+        .remote(url: "https://github.com/sparkle-project/Sparkle", requirement: .branch("main")),
     ],
     targets: [
         .target(
