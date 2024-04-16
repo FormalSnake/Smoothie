@@ -17,6 +17,7 @@ struct UpdateView: View{
     var body: some View{
         Form {
             Section(content: {
+                Label("Behaviour", systemImage: "shippingbox")
                 Toggle("Automatically check for updates", isOn: $automaticallyChecksForUpdates)
                 Toggle("Include development versions", isOn: $includeDevelopmentVersions)
             }, header: {
@@ -61,4 +62,8 @@ struct UpdateView: View{
                 .ignoresSafeArea()
         )
     }
+}
+
+#Preview {
+    UpdateView()
 }

@@ -40,3 +40,7 @@ struct AppearanceView: View{
         )
     }
 }
+
+#Preview {
+    AppearanceView()
+}

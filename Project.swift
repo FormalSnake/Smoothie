@@ -8,6 +8,7 @@ let project = Project(
         .remote(url: "https://github.com/sindresorhus/Defaults", requirement: .branch("main")),
         .remote(url: "https://github.com/sparkle-project/Sparkle", requirement: .branch("2.x")),
         .remote(url: "https://github.com/orchetect/SettingsAccess", requirement: .branch("main")),
+        .remote(url: "https://github.com/sindresorhus/KeyboardShortcuts", requirement: .branch("main"))
     ],
     targets: [
         .target(
@@ -23,7 +24,8 @@ let project = Project(
                 .package(product: "SimplyCoreAudio", type: .runtime),
                 .package(product: "Defaults", type: .runtime),
                 .package(product: "Sparkle", type: .runtime),
-                .package(product: "SettingsAccess", type: .runtime)
+                .package(product: "SettingsAccess", type: .runtime),
+                .package(product: "KeyboardShortcuts", type: .runtime)
             ],
             settings: Settings.settings(
                 base: [

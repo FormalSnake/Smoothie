@@ -9,6 +9,7 @@ import SwiftUI
 import Sparkle
 import Defaults
 import SettingsAccess
+import KeyboardShortcuts
 
 @main
 struct SmoothieApp: App {
@@ -25,17 +26,17 @@ struct SmoothieApp: App {
             Button("Audio Output Monitor") {
                 appDelegate.audioOutputMonitor.show()
             }
-            .keyboardShortcut("1", modifiers: .command)
+            .keyboardShortcut(KeyboardShortcuts.Name("triggerAudioOutput"))
             
             Button("Battery Monitor") {
                 appDelegate.batteryMonitor.show()
             }
-            .keyboardShortcut("2", modifiers: .command)
+            .keyboardShortcut(KeyboardShortcuts.Name("triggerBattery"))
             
             Button("Now Playing Monitor") {
                 appDelegate.nowPlayingMonitor.show()
             }
-            .keyboardShortcut("3", modifiers: .command)
+            .keyboardShortcut(KeyboardShortcuts.Name("triggerMediaPlayer"))
             
             Divider()
             

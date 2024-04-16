@@ -20,21 +20,21 @@ struct SettingsView: View {
                     tag: 0,
                     selection: $selection
                 ) {
-                    Label("General", image: "general")
+                    Label("General", systemImage: "gearshape")
                 }
                 NavigationLink(
                     destination: AppearanceView(),
                     tag: 1,
                     selection: $selection
                 ) {
-                    Label("Appearance", image: "appearance")
+                    Label("Appearance", systemImage: "paintbrush")
                 }
                 NavigationLink(
                     destination: UpdateView(),
                     tag: 2,
                     selection: $selection
                 ) {
-                    Label("Updates", image: "updates")
+                    Label("Updates", systemImage: "shippingbox")
                 }
             }
             .background(
@@ -48,4 +48,8 @@ struct SettingsView: View {
         .frame(width: 1000, height: 680)
         .fixedSize()
     }
+}
+
+#Preview {
+    SettingsView()
 }
