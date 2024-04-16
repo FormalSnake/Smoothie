@@ -1,15 +1,6 @@
 {
-  "originHash" : "478f58d256d8220d5ed90cbdb513ab48224eee156d3a3da6e87701fb2c222b86",
+  "originHash" : "907eb6b3fd480c7ae3b5739f7b50e99a7eea910dcc2adbc6a4a56fdb6e7e57b8",
   "pins" : [
-    {
-      "identity" : "defaults",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/sindresorhus/Defaults",
-      "state" : {
-        "branch" : "main",
-        "revision" : "38925e3cfacf3fb89a81a35b1cd44fd5a5b7e0fa"
-      }
-    },
     {
       "identity" : "dynamicnotchkit",
       "kind" : "remoteSourceControl",
