@@ -20,6 +20,7 @@ let project = Project(
             dependencies: [
                 .package(product: "DynamicNotchKit", type: .runtime),
                 .package(product: "SimplyCoreAudio", type: .runtime),
+                .package(url: "https://github.com/orchetect/SettingsAccess", from: "1.4.0"),
                 
             ],
             settings: Settings.settings(

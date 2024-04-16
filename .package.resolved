@@ -1,6 +1,15 @@
 {
-  "originHash" : "e285998a8efcf8cfdb5197e3b6ac320068752e4250e0fd900994ee5f2f34c1cb",
+  "originHash" : "907463577f113be611e5bb5e1f7ffe918b2b4ca42c8812007fde52e20225ac1e",
   "pins" : [
+    {
+      "identity" : "defaults",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sindresorhus/Defaults",
+      "state" : {
+        "branch" : "main",
+        "revision" : "38925e3cfacf3fb89a81a35b1cd44fd5a5b7e0fa"
+      }
+    },
     {
       "identity" : "dynamicnotchkit",
       "kind" : "remoteSourceControl",
@@ -11,21 +20,21 @@
       }
     },
     {
-      "identity" : "settingsaccess",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/orchetect/SettingsAccess",
-      "state" : {
-        "revision" : "0fd73c8b5892e88acb13adb7f36a4ba9293a0061",
-        "version" : "1.4.0"
-      }
-    },
-    {
       "identity" : "simplycoreaudio",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rnine/SimplyCoreAudio",
       "state" : {
         "branch" : "develop",
         "revision" : "b5430564b1d55adab3c331fb7574445a84bd4ceb"
+      }
+    },
+    {
+      "identity" : "sparkle",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sparkle-project/Sparkle",
+      "state" : {
+        "branch" : "2.x",
+        "revision" : "e9989a8ae7d09c946d07d325d71414024bd1e2dd"
       }
     },
     {
