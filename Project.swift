@@ -7,6 +7,7 @@ let project = Project(
         .remote(url: "https://github.com/rnine/SimplyCoreAudio", requirement: .branch("develop")),
         .remote(url: "https://github.com/sindresorhus/Defaults", requirement: .branch("main")),
         .remote(url: "https://github.com/sparkle-project/Sparkle", requirement: .branch("2.x")),
+        .remote(url: "https://github.com/orchetect/SettingsAccess", requirement: .branch("main")),
     ],
     targets: [
         .target(
@@ -20,8 +21,6 @@ let project = Project(
             dependencies: [
                 .package(product: "DynamicNotchKit", type: .runtime),
                 .package(product: "SimplyCoreAudio", type: .runtime),
-                .package(url: "https://github.com/orchetect/SettingsAccess", from: "1.4.0"),
-                
             ],
             settings: Settings.settings(
                 base: [
