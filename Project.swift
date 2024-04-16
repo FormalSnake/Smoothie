@@ -21,6 +21,9 @@ let project = Project(
             dependencies: [
                 .package(product: "DynamicNotchKit", type: .runtime),
                 .package(product: "SimplyCoreAudio", type: .runtime),
+                .package(product: "Defaults", type: .runtime),
+                .package(product: "Sparkle", type: .runtime),
+                .package(product: "SettingsAccess", type: .runtime)
             ],
             settings: Settings.settings(
                 base: [
