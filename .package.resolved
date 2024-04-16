@@ -1,5 +1,5 @@
 {
-  "originHash" : "a9127fd60892b56781c96827165a7a779f7bfd479774dbe54d0fc9061d8c80ed",
+  "originHash" : "478f58d256d8220d5ed90cbdb513ab48224eee156d3a3da6e87701fb2c222b86",
   "pins" : [
     {
       "identity" : "defaults",
@@ -20,30 +20,12 @@
       }
     },
     {
-      "identity" : "settingsaccess",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/orchetect/SettingsAccess",
-      "state" : {
-        "revision" : "0fd73c8b5892e88acb13adb7f36a4ba9293a0061",
-        "version" : "1.4.0"
-      }
-    },
-    {
       "identity" : "simplycoreaudio",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rnine/SimplyCoreAudio",
       "state" : {
         "branch" : "develop",
         "revision" : "b5430564b1d55adab3c331fb7574445a84bd4ceb"
-      }
-    },
-    {
-      "identity" : "sparkle",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/sparkle-project/Sparkle",
-      "state" : {
-        "revision" : "0a4caaf7a81eea2cece651ef4b17331fa0634dff",
-        "version" : "2.6.0"
       }
     },
     {
