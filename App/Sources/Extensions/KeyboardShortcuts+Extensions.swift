@@ -1,5 +1,5 @@
 //
-//  Constants.swift
+//  KeyboardShortcuts+Extensions.swift
 //  Smoothie
 //
 //  Created by Kyan De Sutter on 16/4/24.

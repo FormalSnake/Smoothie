@@ -26,18 +26,18 @@ struct SmoothieApp: App {
             Button("Audio Output Monitor") {
                 appDelegate.audioOutputMonitor.show()
             }
-            .keyboardShortcut(KeyboardShortcuts.Name("triggerAudioOutput"))
-            
+            .keyboardShortcut(.triggerAudioOutput)
+
             Button("Battery Monitor") {
                 appDelegate.batteryMonitor.show()
             }
-            .keyboardShortcut(KeyboardShortcuts.Name("triggerBattery"))
-            
+            .keyboardShortcut(.triggerBattery)
+
             Button("Now Playing Monitor") {
                 appDelegate.nowPlayingMonitor.show()
             }
-            .keyboardShortcut(KeyboardShortcuts.Name("triggerMediaPlayer"))
-            
+            .keyboardShortcut(.triggerMediaPlayer)
+
             Divider()
             
             SettingsLink(
