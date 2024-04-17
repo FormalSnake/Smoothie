@@ -1,5 +1,5 @@
 {
-  "originHash" : "872a244243c72401658c77fbbd565c9e6b8badb4b062786dffc6e6667c417a95",
+  "originHash" : "cdd5847e436e6ed5212cf2bf3dd50a050a609634e9825efed523b54e9ab22b2e",
   "pins" : [
     {
       "identity" : "defaults",
@@ -16,7 +16,7 @@
       "location" : "https://github.com/MrKai77/DynamicNotchKit",
       "state" : {
         "branch" : "main",
-        "revision" : "02942fc01a19f0c46e501677600051476892a441"
+        "revision" : "4b146667dcd7125bd8d4e301ae72cb3869dfd48d"
       }
     },
     {
@@ -26,6 +26,24 @@
       "state" : {
         "branch" : "main",
         "revision" : "09e4a10ed6b65b3a40fe07b6bf0c84809313efc4"
+      }
+    },
+    {
+      "identity" : "mediaremote",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/PrivateFrameworks/MediaRemote",
+      "state" : {
+        "revision" : "ee5ae0cc17c0f759049d50e6ea95e1cf718dfda5",
+        "version" : "0.1.0"
+      }
+    },
+    {
+      "identity" : "protocolbuffer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/PrivateFrameworks/ProtocolBuffer",
+      "state" : {
+        "revision" : "d4c569d9ce5e146e9185ebc056fdbaaf9784ec5d",
+        "version" : "0.1.1"
       }
     },
     {

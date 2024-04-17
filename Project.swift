@@ -8,7 +8,8 @@ let project = Project(
         .remote(url: "https://github.com/sindresorhus/Defaults", requirement: .branch("main")),
         .remote(url: "https://github.com/sparkle-project/Sparkle", requirement: .branch("2.x")),
         .remote(url: "https://github.com/orchetect/SettingsAccess", requirement: .branch("main")),
-        .remote(url: "https://github.com/sindresorhus/KeyboardShortcuts", requirement: .branch("main"))
+        .remote(url: "https://github.com/sindresorhus/KeyboardShortcuts", requirement: .branch("main")),
+        .remote(url: "https://github.com/PrivateFrameworks/MediaRemote", requirement: .upToNextMinor(from: "0.1.0")),
     ],
     targets: [
         .target(
@@ -25,7 +26,9 @@ let project = Project(
                 .package(product: "Defaults", type: .runtime),
                 .package(product: "Sparkle", type: .runtime),
                 .package(product: "SettingsAccess", type: .runtime),
-                .package(product: "KeyboardShortcuts", type: .runtime)
+                .package(product: "KeyboardShortcuts", type: .runtime),
+                .package(product: "PrivateMediaRemote", type: .runtime),
+                .package(product: "MediaRemote", type: .runtime),
             ],
             settings: Settings.settings(
                 base: [
