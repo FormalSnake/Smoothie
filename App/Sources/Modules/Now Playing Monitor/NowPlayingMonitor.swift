@@ -69,9 +69,10 @@ class NowPlayingMonitor: MonitorProtocol {
 
     func getNowPlayingItem(from information: [AnyHashable: Any]) -> NowPlayingMonitor.NowPlayingItem? {
         guard
-            let artist = information["kMRMediaRemoteNowPlayingInfoArtist"] as? String,
-            let title = information["kMRMediaRemoteNowPlayingInfoTitle"] as? String,
-            let album = information["kMRMediaRemoteNowPlayingInfoAlbum"] as? String
+            let playbackRate = information[kMRMediaRemoteNowPlayingInfoPlaybackRate] as? Double,
+            let artist = information[kMRMediaRemoteNowPlayingInfoArtist] as? String,
+            let title = information[kMRMediaRemoteNowPlayingInfoTitle] as? String,
+            let album = information[kMRMediaRemoteNowPlayingInfoAlbum] as? String
         else {
             return nil
         }
@@ -86,7 +87,8 @@ class NowPlayingMonitor: MonitorProtocol {
             artist: artist,
             title: title,
             album: album,
-            artwork: image
+            artwork: image,
+            isPlaying: playbackRate != .zero
         )
 
         return nowPlayingItem

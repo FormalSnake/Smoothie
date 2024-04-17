@@ -13,6 +13,7 @@ extension NowPlayingMonitor {
         var title: String
         var album: String
         var artwork: NSImage?
+        var isPlaying: Bool
 
         func isDifferentSong(from other: NowPlayingItem?) -> Bool {
             guard let other = other else { return true }
