@@ -29,7 +29,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApplication.shared.delegate = self
-        
+        NSApp.setActivationPolicy(.accessory) // Hides dock icon
+
         batteryMonitor.addObservers()
         audioOutputMonitor.addObservers()
         nowPlayingMonitor.addObservers()
