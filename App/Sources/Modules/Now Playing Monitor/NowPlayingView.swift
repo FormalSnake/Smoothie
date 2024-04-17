@@ -99,7 +99,6 @@ struct AutoScrollingText: View {
                         .font(font)
                         .background(GeometryReader { textGeometry -> Color in
                             DispatchQueue.main.async {
-                                // Update de scrollSize alleen als het verandert
                                 if self.scrollSize.width != textGeometry.size.width {
                                     self.scrollSize = textGeometry.size
                                     self.startScrolling(geometry: geometry)
@@ -124,7 +123,6 @@ struct AutoScrollingText: View {
             withAnimation {
                 self.scrollOffset -= 1
                 
-                // Reset de scroll wanneer het einde bereikt is
                 if self.scrollOffset <= -self.scrollSize.width {
                     self.scrollOffset = geometry.size.width
                 }
