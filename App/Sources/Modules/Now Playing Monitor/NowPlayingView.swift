@@ -10,11 +10,11 @@ import PrivateMediaRemote
 
 struct NowPlayingView: View {
     @State var nowPlayingItem: NowPlayingMonitor.NowPlayingItem
-
+    
     init(_ item: NowPlayingMonitor.NowPlayingItem) {
         self._nowPlayingItem = State(initialValue: item)
     }
-
+    
     var body: some View {
         HStack {
             ZStack {
@@ -28,21 +28,29 @@ struct NowPlayingView: View {
                 }
             }
             .clipShape(.rect(cornerRadius: 10))
-
+            
             Spacer()
                 .frame(width: 10)
-
+            
             VStack(alignment: .leading) {
-                Text(nowPlayingItem.title)
-                    .font(.headline)
-
-                Text(nowPlayingItem.album)
+                if(nowPlayingItem.album != "" && nowPlayingItem.album != nowPlayingItem.title)
+                {
+                    AutoScrollingText(text: "\(nowPlayingItem.title) - \(nowPlayingItem.album)", font: .headline)
+                    /*Text("\(nowPlayingItem.title) - \(nowPlayingItem.album)")
+                        .font(.headline)*/
+                }
+                else{
+                    AutoScrollingText(text: "\(nowPlayingItem.title)", font: .headline)
+                }
+                
+                Text(nowPlayingItem.artist)
                     .foregroundStyle(.secondary)
                     .font(.caption2)
             }
-
+            .frame(minWidth: 120)
+            
             Spacer()
-
+            
             Button {
                 MRMediaRemoteSendCommand(MRMediaRemoteCommandTogglePlayPause, [:])
             } label: {
@@ -63,7 +71,7 @@ struct NowPlayingView: View {
         .onReceive(.nowPlayingChanged) { notification in
             if let object = notification.object,
                let item = object as? NowPlayingMonitor.NowPlayingItem {
-
+                
                 self.nowPlayingItem = NowPlayingMonitor.NowPlayingItem(
                     artist: item.artist,
                     title: item.title,
@@ -71,6 +79,50 @@ struct NowPlayingView: View {
                     artwork: item.artwork ?? self.nowPlayingItem.artwork,
                     isPlaying: item.isPlaying
                 )
+            }
+        }
+    }
+}
+
+struct AutoScrollingText: View {
+    let text: String
+    let font: Font
+    @State private var scrollOffset = 20.0
+    @State private var scrollSize = CGSize.zero
+    @State private var timer: Timer?
+
+    var body: some View {
+        GeometryReader { geometry in
+            ScrollView(.horizontal, showsIndicators: false) {
+                Text(text)
+                    .font(font)
+                    .background(GeometryReader { textGeometry -> Color in
+                        DispatchQueue.main.async {
+                            // Update de scrollSize alleen als het verandert
+                            if self.scrollSize.width != textGeometry.size.width {
+                                self.scrollSize = textGeometry.size
+                                self.startScrolling(geometry: geometry)
+                            }
+                        }
+                        return Color.clear
+                    })
+                    .offset(x: self.scrollOffset)
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height)
+        }
+    }
+
+    private func startScrolling(geometry: GeometryProxy) {
+        // Maak een Timer die de offset aanpast om de tekst te scrollen
+        self.timer?.invalidate()
+        self.timer = Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { _ in
+            withAnimation {
+                self.scrollOffset -= 1
+
+                // Reset de scroll wanneer het einde bereikt is
+                if self.scrollOffset <= -self.scrollSize.width {
+                    self.scrollOffset = geometry.size.width
+                }
             }
         }
     }
