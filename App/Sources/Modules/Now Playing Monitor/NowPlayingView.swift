@@ -119,7 +119,6 @@ struct AutoScrollingText: View {
     }
     
     private func startScrolling(geometry: GeometryProxy) {
-        // Maak een Timer die de offset aanpast om de tekst te scrollen
         self.timer?.invalidate()
         self.timer = Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { _ in
             withAnimation {
