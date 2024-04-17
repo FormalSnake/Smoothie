@@ -51,10 +51,11 @@ struct NowPlayingView: View {
                         .font(.system(size: 20))
                         .contentTransition(.symbolEffect(.replace, options: .speed(1.5)))
                 } else {
-                    // Fallback on earlier versions
+                    Image(systemName: self.nowPlayingItem.isPlaying ?  "pause.fill" : "play.fill")
+                        .font(.system(size: 20))
                 }
             }
-            .animation(.smooth, value: self.nowPlayingItem.isPlaying)
+            .frame(width: 20)
             .buttonStyle(PlainButtonStyle())
             .padding(.trailing, 10)
         }

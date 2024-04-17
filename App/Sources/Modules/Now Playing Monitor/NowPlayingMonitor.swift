@@ -40,6 +40,9 @@ class NowPlayingMonitor: MonitorProtocol {
                 if let newItem = newItem,
                    newItem.isDifferentSong(from: self.nowPlayingItem) {
 
+                    // MARK: EXPERIMENTAL
+                    guard newItem.artwork != nil else { return }
+
                     self.nowPlayingItem = newItem
                     self.show()
                 }
