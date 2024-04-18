@@ -48,6 +48,7 @@ struct SmoothieApp: App {
                     for window in NSApp.windows where window.toolbar?.items != nil {
                         window.close()
                     }
+                    NSApp.activate(ignoringOtherApps: true)
                 },
                 postAction: {
                     for window in NSApp.windows where window.toolbar?.items != nil {
