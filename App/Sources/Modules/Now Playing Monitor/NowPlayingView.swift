@@ -33,21 +33,20 @@ struct NowPlayingView: View {
                 .frame(width: 10)
             
             VStack(alignment: .leading) {
-                if(nowPlayingItem.album != "" && nowPlayingItem.album != nowPlayingItem.title)
-                {
+                Spacer()
+
+                if !nowPlayingItem.album.isEmpty && !nowPlayingItem.album.contains(nowPlayingItem.title) {
                     AutoScrollingText(text: "\(nowPlayingItem.title) - \(nowPlayingItem.album)", font: .headline)
-                    /*Text("\(nowPlayingItem.title) - \(nowPlayingItem.album)")
-                     .font(.headline)*/
-                }
-                else{
+                } else {
                     AutoScrollingText(text: "\(nowPlayingItem.title)", font: .headline)
                 }
                 
                 Text(nowPlayingItem.artist)
                     .foregroundStyle(.secondary)
                     .font(.caption2)
+
+                Spacer()
             }
-            .frame(minWidth: 120)
             
             Spacer()
             
@@ -72,13 +71,15 @@ struct NowPlayingView: View {
             if let object = notification.object,
                let item = object as? NowPlayingMonitor.NowPlayingItem {
                 
-                self.nowPlayingItem = NowPlayingMonitor.NowPlayingItem(
-                    artist: item.artist,
-                    title: item.title,
-                    album: item.album,
-                    artwork: item.artwork ?? self.nowPlayingItem.artwork,
-                    isPlaying: item.isPlaying
-                )
+                withAnimation {
+                    self.nowPlayingItem = NowPlayingMonitor.NowPlayingItem(
+                        artist: item.artist,
+                        title: item.title,
+                        album: item.album,
+                        artwork: item.artwork ?? self.nowPlayingItem.artwork,
+                        isPlaying: item.isPlaying
+                    )
+                }
             }
         }
     }
@@ -87,31 +88,33 @@ struct NowPlayingView: View {
 struct AutoScrollingText: View {
     let text: String
     let font: Font
+
     @State private var scrollOffset = 20.0
     @State private var scrollSize = CGSize.zero
     @State private var timer: Timer?
     
     var body: some View {
-        if(text.count >= 20){
+        if text.count >= 20 {
             GeometryReader { geometry in
                 ScrollView(.horizontal, showsIndicators: false) {
                     Text(text)
                         .font(font)
-                        .background(GeometryReader { textGeometry -> Color in
-                            DispatchQueue.main.async {
-                                if self.scrollSize.width != textGeometry.size.width {
-                                    self.scrollSize = textGeometry.size
-                                    self.startScrolling(geometry: geometry)
+                        .background {
+                            GeometryReader { textGeometry -> Color in
+                                DispatchQueue.main.async {
+                                    if self.scrollSize.width != textGeometry.size.width {
+                                        self.scrollSize = textGeometry.size
+                                        self.startScrolling(geometry: geometry)
+                                    }
                                 }
+                                return Color.clear
                             }
-                            return Color.clear
-                        })
+                        }
                         .offset(x: self.scrollOffset)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }
-        }
-        else{
+        } else {
             Text(text)
                 .font(font)
         }
@@ -119,13 +122,14 @@ struct AutoScrollingText: View {
     
     private func startScrolling(geometry: GeometryProxy) {
         self.timer?.invalidate()
-        self.timer = Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { _ in
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1/30.0, repeats: true) { _ in
             withAnimation {
                 self.scrollOffset -= 1
-                
-                if self.scrollOffset <= -self.scrollSize.width {
-                    self.scrollOffset = geometry.size.width
-                }
+            }
+
+            // Reset
+            if self.scrollOffset <= -self.scrollSize.width {
+                self.scrollOffset = geometry.size.width
             }
         }
     }

@@ -59,10 +59,10 @@ class NowPlayingMonitor: MonitorProtocol {
                 guard let item = self.getNowPlayingItem(from: information) else { return }
 
                 if let appDelegate = AppDelegate.shared {
-                    if let dynamicNotch = appDelegate.dynamicNotch,
-                       dynamicNotch.isVisible {
+                    guard !(appDelegate.dynamicNotch?.isVisible ?? false) else {
                         return
                     }
+
                     appDelegate.dynamicNotch = DynamicNotch(content: NowPlayingView(item))
                     appDelegate.lastShownMonitor = self
                     appDelegate.dynamicNotch?.show(for: 3)
