@@ -15,13 +15,20 @@ extension NowPlayingMonitor {
         var artwork: NSImage?
         var isPlaying: Bool
 
-        func isDifferentSong(from other: NowPlayingItem?) -> Bool {
+        func isDifferentState(from other: NowPlayingItem?) -> Bool {
             guard let other = other else { return true }
 
-            return
-                self.artist != other.artist &&
-                self.title != other.title &&
-                self.album != other.album
+            if self.artist != other.artist &&
+               self.title != other.title &&
+               self.album != other.album {
+                return true
+            }
+
+            if self.isPlaying != other.isPlaying {
+                return true
+            }
+
+            return false
         }
     }
 }
