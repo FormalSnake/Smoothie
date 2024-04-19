@@ -1,15 +1,11 @@
 //
-//  Extensions.swift
+//  View+Extensions.swift
 //  Smoothie
 //
-//  Created by Kai Azim on 2024-04-12.
+//  Created by Kai Azim on 2024-04-16.
 //
 
 import SwiftUI
-
-extension Notification.Name {
-    static let nowPlayingChanged = Notification.Name("nowPlayingChanged")
-}
 
 extension View {
     func onReceive(

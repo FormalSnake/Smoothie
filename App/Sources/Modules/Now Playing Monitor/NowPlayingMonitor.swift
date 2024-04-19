@@ -7,37 +7,24 @@
 
 import SwiftUI
 import DynamicNotchKit
+import PrivateMediaRemote
 
-// https://github.com/JohnCoates/Aerial/blob/6b0f608c84511f86efec0de85aced2ba060bc41c/Aerial/Source/Models/Music/Music.swift#L36
 class NowPlayingMonitor: MonitorProtocol {
-    private var lastPlayedItem: NowPlayingItem?
-
-    var mediaRemoteBundle: CFBundle {
-        CFBundleCreate(
-          kCFAllocatorDefault,
-          NSURL(fileURLWithPath: "/System/Library/PrivateFrameworks/MediaRemote.framework")
-        )
-    }
+    private var nowPlayingItem: NowPlayingItem?
 
     func addObservers() {
-        let bundle = mediaRemoteBundle
+        // Initialize nowPla
+        MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main) { information in
+            if let information = information {
+                self.nowPlayingItem = self.getNowPlayingItem(from: information)
+            }
+        }
 
-        // MARK: Get a function pointer for MRMediaRemoteRegisterForNowPlayingNotifications
-        let MRMediaRemoteRegisterForNowPlayingNotificationsPointer = CFBundleGetFunctionPointerForName(
-            bundle,
-            "MRMediaRemoteRegisterForNowPlayingNotifications" as CFString
-        )
-        typealias MRMediaRemoteRegisterForNowPlayingNotificationsFunction = @convention(c) (DispatchQueue) -> Void
-        let MRMediaRemoteRegisterForNowPlayingNotifications = unsafeBitCast(
-            MRMediaRemoteRegisterForNowPlayingNotificationsPointer,
-            to: MRMediaRemoteRegisterForNowPlayingNotificationsFunction.self
-        )
-
-        // Add notification for when song changes!
+        // Set up the observer
         NotificationCenter.default.addObserver(
-                    forName: NSNotification.Name(rawValue: "kMRMediaRemoteNowPlayingInfoDidChangeNotification"),
-                    object: nil,
-                    queue: nil
+            forName: NSNotification.Name.mrMediaRemoteNowPlayingInfoDidChange,
+            object: nil,
+            queue: nil
         ) { _ in
             self.updateData()
         }
@@ -46,76 +33,68 @@ class NowPlayingMonitor: MonitorProtocol {
     }
     
     func updateData() {
-        let bundle = mediaRemoteBundle
-
-        // MARK: Get a function pointer for MRMediaRemoteGetNowPlayingInfo
-        guard let MRMediaRemoteGetNowPlayingInfoPointer = CFBundleGetFunctionPointerForName(bundle, "MRMediaRemoteGetNowPlayingInfo" as CFString) else {
-            return
-        }
-
-        typealias MRMediaRemoteGetNowPlayingInfoFunction = @convention(c) (DispatchQueue, @escaping ([String: Any]) -> Void) -> Void
-
-        let MRMediaRemoteGetNowPlayingInfo = unsafeBitCast(
-            MRMediaRemoteGetNowPlayingInfoPointer,
-            to: MRMediaRemoteGetNowPlayingInfoFunction.self
-        )
-
-        // MARK: Register notification observer
         MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main) { information in
-            let nowPlayingItem = self.processNowPlayingInfo(information)
+            if let information = information {
+                let newItem = self.getNowPlayingItem(from: information)
 
-            if nowPlayingItem != self.lastPlayedItem {
-                self.lastPlayedItem = nowPlayingItem
-                self.show()
+                if let newItem = newItem,
+                   newItem.isDifferentState(from: self.nowPlayingItem) {
+
+                    // MARK: EXPERIMENTAL
+                    guard newItem.artwork != nil else { return }
+
+                    self.nowPlayingItem = newItem
+                    self.show()
+                }
+
+                // If the now playing view is open, this notification will update it.
+                NotificationCenter.default.post(name: .nowPlayingChanged, object: newItem)
             }
-
         }
     }
     
     func show() {
-        guard let lastPlayedItem = self.lastPlayedItem else {
-            return
-        }
+        MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main) { information in
+            if let information = information {
+                guard let item = self.getNowPlayingItem(from: information) else { return }
 
-        if let appDelegate = AppDelegate.shared {
-            if let dynamicNotch = appDelegate.dynamicNotch,
-                dynamicNotch.isVisible {
-                return
+                if let appDelegate = AppDelegate.shared {
+                    guard !(appDelegate.dynamicNotch?.isVisible ?? false) else {
+                        return
+                    }
+
+                    appDelegate.dynamicNotch = DynamicNotch(content: NowPlayingView(item))
+                    appDelegate.lastShownMonitor = self
+                    appDelegate.dynamicNotch?.show(for: 3)
+                }
             }
-            appDelegate.dynamicNotch = DynamicNotch(content: NowPlayingView(lastPlayedItem))
-            appDelegate.dynamicNotch?.show(for: 2)
         }
     }
 
-    private func processNowPlayingInfo(_ information: [String: Any]) -> NowPlayingItem {
-        let artist = information["kMRMediaRemoteNowPlayingInfoArtist"] as? String
-        let title = information["kMRMediaRemoteNowPlayingInfoTitle"] as? String
-        let album = information["kMRMediaRemoteNowPlayingInfoAlbum"] as? String
-        var artwork: NSImage? = nil
-
-        if let artworkData = information["kMRMediaRemoteNowPlayingInfoArtworkData"] as? Data {
-            artwork = NSImage(data: artworkData)
+    func getNowPlayingItem(from information: [AnyHashable: Any]) -> NowPlayingMonitor.NowPlayingItem? {
+        guard
+            let playbackRate = information[kMRMediaRemoteNowPlayingInfoPlaybackRate] as? Double,
+            let artist = information[kMRMediaRemoteNowPlayingInfoArtist] as? String,
+            let title = information[kMRMediaRemoteNowPlayingInfoTitle] as? String,
+            let album = information[kMRMediaRemoteNowPlayingInfoAlbum] as? String
+        else {
+            return nil
         }
 
-        NotificationCenter.default.post(name: .nowPlayingChanged, object: nil, userInfo: [
-            "kMRMediaRemoteNowPlayingInfoArtist": information["kMRMediaRemoteNowPlayingInfoArtist"] as Any,
-            "kMRMediaRemoteNowPlayingInfoTitle": information["kMRMediaRemoteNowPlayingInfoTitle"] as Any,
-            "kMRMediaRemoteNowPlayingInfoAlbum": information["kMRMediaRemoteNowPlayingInfoAlbum"] as Any,
-            "kMRMediaRemoteNowPlayingInfoArtworkData": information["kMRMediaRemoteNowPlayingInfoArtworkData"] as Any
-        ])
+        // Image is optional
+        var image: NSImage?
+        if let data = information["kMRMediaRemoteNowPlayingInfoArtworkData"] as? Data {
+            image = NSImage(data: data)
+        }
 
-        return NowPlayingItem(
-            artist: artist ?? "Unknown Artist",
-            title: title ?? "Unknown Title",
-            album: album ?? "Unknown Album",
-            artwork: artwork
+        let nowPlayingItem = NowPlayingMonitor.NowPlayingItem(
+            artist: artist,
+            title: title,
+            album: album,
+            artwork: image,
+            isPlaying: playbackRate != .zero
         )
-    }
 
-    struct NowPlayingItem: Hashable, Equatable {
-        var artist: String
-        var title: String
-        var album: String
-        var artwork: NSImage?
+        return nowPlayingItem
     }
 }

@@ -1,13 +1,58 @@
 {
-  "originHash" : "907eb6b3fd480c7ae3b5739f7b50e99a7eea910dcc2adbc6a4a56fdb6e7e57b8",
+  "originHash" : "cdd5847e436e6ed5212cf2bf3dd50a050a609634e9825efed523b54e9ab22b2e",
   "pins" : [
+    {
+      "identity" : "defaults",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sindresorhus/Defaults",
+      "state" : {
+        "branch" : "main",
+        "revision" : "38925e3cfacf3fb89a81a35b1cd44fd5a5b7e0fa"
+      }
+    },
     {
       "identity" : "dynamicnotchkit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/MrKai77/DynamicNotchKit",
       "state" : {
         "branch" : "main",
-        "revision" : "02942fc01a19f0c46e501677600051476892a441"
+        "revision" : "4b146667dcd7125bd8d4e301ae72cb3869dfd48d"
+      }
+    },
+    {
+      "identity" : "keyboardshortcuts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
+      "state" : {
+        "branch" : "main",
+        "revision" : "09e4a10ed6b65b3a40fe07b6bf0c84809313efc4"
+      }
+    },
+    {
+      "identity" : "mediaremote",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/PrivateFrameworks/MediaRemote",
+      "state" : {
+        "revision" : "ee5ae0cc17c0f759049d50e6ea95e1cf718dfda5",
+        "version" : "0.1.0"
+      }
+    },
+    {
+      "identity" : "protocolbuffer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/PrivateFrameworks/ProtocolBuffer",
+      "state" : {
+        "revision" : "d4c569d9ce5e146e9185ebc056fdbaaf9784ec5d",
+        "version" : "0.1.1"
+      }
+    },
+    {
+      "identity" : "settingsaccess",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/orchetect/SettingsAccess",
+      "state" : {
+        "branch" : "main",
+        "revision" : "e1083e6651c625332112031bf74ad81322b7df2c"
       }
     },
     {
@@ -17,6 +62,15 @@
       "state" : {
         "branch" : "develop",
         "revision" : "b5430564b1d55adab3c331fb7574445a84bd4ceb"
+      }
+    },
+    {
+      "identity" : "sparkle",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sparkle-project/Sparkle",
+      "state" : {
+        "branch" : "2.x",
+        "revision" : "e9989a8ae7d09c946d07d325d71414024bd1e2dd"
       }
     },
     {

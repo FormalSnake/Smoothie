@@ -32,7 +32,7 @@ class AudioOutputMonitor: MonitorProtocol {
         guard let defaultOutputDevice = sca.defaultOutputDevice else { return}
 
         var outputImage = "cable.coaxial"
-
+        
         if defaultOutputDevice.name.lowercased().contains("buds") {
             outputImage = "earbuds"
         }
@@ -52,7 +52,8 @@ class AudioOutputMonitor: MonitorProtocol {
             appDelegate.showPopup(
                 title: defaultOutputDevice.name,
                 description: "Connected",
-                image: Image(systemName: outputImage)
+                image: Image(systemName: outputImage),
+                sender: self
             )
         }
     }
