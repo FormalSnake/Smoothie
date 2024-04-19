@@ -23,6 +23,11 @@ struct SmoothieApp: App {
         .windowStyle(.hiddenTitleBar)
         
         MenuBarExtra("Smoothie", systemImage: "takeoutbag.and.cup.and.straw.fill") {
+            Button("Now Playing Monitor") {
+                appDelegate.nowPlayingMonitor.show()
+            }
+            .keyboardShortcut(.triggerMediaPlayer)
+
             Button("Audio Output Monitor") {
                 appDelegate.audioOutputMonitor.show()
             }
@@ -33,10 +38,10 @@ struct SmoothieApp: App {
             }
             .keyboardShortcut(.triggerBattery)
 
-            Button("Now Playing Monitor") {
-                appDelegate.nowPlayingMonitor.show()
+            Button("Bluetooth Monitor") {
+                appDelegate.bluetoothMonitor.show()
             }
-            .keyboardShortcut(.triggerMediaPlayer)
+            // TODO: ADD SHORTCUT
 
             Divider()
             
