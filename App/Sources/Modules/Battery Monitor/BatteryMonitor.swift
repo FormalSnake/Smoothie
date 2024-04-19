@@ -60,10 +60,10 @@ class BatteryMonitor: MonitorProtocol {
             return
         }
         
-        let percentage = batteryService.percentage
+        let percentage = batteryService.percentage ?? 100
         let timeRemaining = batteryService.timeRemaining
-        var title: String = "\(percentage ?? 0)% remaining"
-        
+        var title: String = batteryService.powerSource == .battery ? "Battery Percentage" : "Charging..."
+
         var description = String(
             format: "%d hours and %02d minutes Remaining",
             arguments: [(timeRemaining ?? 0) / 60, (timeRemaining ?? 0) % 60]
@@ -90,13 +90,20 @@ class BatteryMonitor: MonitorProtocol {
                 )
             }
         }
-        
+
+        // If battery percentage is < 20% and not being charged
+        if percentage <= self.CHARGING_THRESHOLD && batteryService.isCharging == false {
+            title = "Low Battery"
+            description = "Please charge to dismiss this warning."
+        }
+
         if let appDelegate = NSApp.delegate as? AppDelegate {
             appDelegate.showPopup(
                 title: title,
                 description: description,
-                percentage: Double(percentage ?? 0) / 100,
-                color: (percentage ?? 0) < 20 ? .red : ((percentage ?? 0) <= 40 ? .orange : .green)
+                percentage: Double(percentage) / 100,
+                color: percentage < 20 ? .red : (percentage < 40 ? .orange : .green),
+                seconds: percentage < 20 ? nil : 2
             )
         }
         

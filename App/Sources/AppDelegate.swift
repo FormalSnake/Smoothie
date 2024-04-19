@@ -61,7 +61,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         dynamicNotch?.show(for: seconds)
     }
     
-    func showPopup(title: String, description: String?, percentage: Double, color: Color = .accentColor, seconds: Double = 2) {
+    func showPopup(title: String, description: String?, percentage: Double, color: Color = .accentColor, seconds: Double? = 2) {
         if let dynamicNotch = self.dynamicNotch,
            dynamicNotch.isVisible {
             dynamicNotch.hide()
@@ -79,6 +79,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
             description: description
         )
         
-        dynamicNotch?.show(for: seconds)
+        if let seconds = seconds {
+            dynamicNotch?.show(for: seconds)
+        } else {
+            dynamicNotch?.show()
+        }
     }
 }
