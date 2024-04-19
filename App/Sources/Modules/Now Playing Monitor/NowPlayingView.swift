@@ -47,7 +47,8 @@ struct NowPlayingView: View {
 
                 Spacer()
             }
-            
+            .frame(minWidth: 120)
+
             Spacer()
             
             Button {

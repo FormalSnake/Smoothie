@@ -9,6 +9,7 @@ import SwiftUI
 
 class BatteryMonitor: MonitorProtocol {
     let CHARGING_THRESHOLD: Int = 20
+
     private var batteryService: BatteryService?
     @Published var lastBatteryPowerSource: PowerSource?
     
@@ -33,8 +34,11 @@ class BatteryMonitor: MonitorProtocol {
         guard let batteryService = self.batteryService else {
             return
         }
-        
-        if batteryService.powerSource != self.lastBatteryPowerSource {
+        let percentage = batteryService.percentage ?? 100
+
+        if batteryService.powerSource != self.lastBatteryPowerSource ||
+            percentage <= CHARGING_THRESHOLD {
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.show()
             }
@@ -89,7 +93,7 @@ class BatteryMonitor: MonitorProtocol {
                 description: description,
                 percentage: Double(percentage) / 100,
                 color: percentage < 20 ? .red : (percentage < 40 ? .orange : .green),
-                seconds: percentage < 20 ? nil : 2,
+                seconds: percentage <= CHARGING_THRESHOLD ? nil : 2,
                 sender: self
             )
         }
