@@ -52,7 +52,8 @@ class AudioOutputMonitor: MonitorProtocol {
             appDelegate.showPopup(
                 title: defaultOutputDevice.name,
                 description: "Connected",
-                image: Image(systemName: outputImage)
+                image: Image(systemName: outputImage),
+                sender: self
             )
         }
     }

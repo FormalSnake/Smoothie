@@ -64,6 +64,7 @@ class NowPlayingMonitor: MonitorProtocol {
                         return
                     }
                     appDelegate.dynamicNotch = DynamicNotch(content: NowPlayingView(item))
+                    appDelegate.lastShownMonitor = self
                     appDelegate.dynamicNotch?.show(for: 3)
                 }
             }

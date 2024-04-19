@@ -39,20 +39,6 @@ class BatteryMonitor: MonitorProtocol {
                 self.show()
             }
         }
-        // MARK: PLease look at this it doesnt really work :(
-        /*DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            if let appDelegate = NSApp.delegate as? AppDelegate {
-                if (batteryService.percentage ?? 100 <= self.CHARGING_THRESHOLD && batteryService.isCharging == false ) {
-                    appDelegate.showPopup(
-                        title: "Low Battery",
-                        description: "Please charge to dismiss this warning.",
-                        percentage: Double(batteryService.percentage ?? 0) / 100,
-                        color: batteryService.percentage ?? 100 <= self.CHARGING_THRESHOLD ? .red : .green,
-                        seconds: 99999999999
-                    )
-                }
-            }
-        }*/
     }
     
     func show() {
@@ -62,7 +48,7 @@ class BatteryMonitor: MonitorProtocol {
         
         let percentage = batteryService.percentage ?? 100
         let timeRemaining = batteryService.timeRemaining
-        var title: String = batteryService.powerSource == .battery ? "Battery Percentage" : "Charging..."
+        var title: String = batteryService.powerSource == .battery ? "On Battery Power..." : "Charging..."
 
         var description = String(
             format: "%d hours and %02d minutes Remaining",
@@ -103,7 +89,8 @@ class BatteryMonitor: MonitorProtocol {
                 description: description,
                 percentage: Double(percentage) / 100,
                 color: percentage < 20 ? .red : (percentage < 40 ? .orange : .green),
-                seconds: percentage < 20 ? nil : 2
+                seconds: percentage < 20 ? nil : 2,
+                sender: self
             )
         }
         

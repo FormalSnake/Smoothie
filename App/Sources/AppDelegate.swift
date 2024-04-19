@@ -26,7 +26,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     let nowPlayingMonitor = NowPlayingMonitor()
     
     var dynamicNotch: DynamicNotch?
-    
+    var lastShownMonitor: MonitorProtocol?
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApplication.shared.delegate = self
         NSApp.setActivationPolicy(.accessory) // Hides dock icon
@@ -46,7 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         }
     }
     
-    func showPopup(title: String, description: String?, image: Image?, seconds: Double = 2) {
+    func showPopup(title: String, description: String?, image: Image?, seconds: Double? = 2, sender: MonitorProtocol) {
         if let dynamicNotch = self.dynamicNotch,
            dynamicNotch.isVisible {
             dynamicNotch.hide()
@@ -57,11 +58,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
             title: title,
             description: description
         )
-        
-        dynamicNotch?.show(for: seconds)
+
+        lastShownMonitor = sender
+        if let seconds = seconds {
+            dynamicNotch?.show(for: seconds)
+        } else {
+            dynamicNotch?.show()
+        }
     }
     
-    func showPopup(title: String, description: String?, percentage: Double, color: Color = .accentColor, seconds: Double? = 2) {
+    func showPopup(title: String, description: String?, percentage: Double, color: Color = .accentColor, seconds: Double? = 2, sender: MonitorProtocol) {
         if let dynamicNotch = self.dynamicNotch,
            dynamicNotch.isVisible {
             dynamicNotch.hide()
@@ -73,6 +79,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
                 .foregroundStyle(.secondary)
         }
         
+        lastShownMonitor = sender
         dynamicNotch = DynamicNotchInfo(
             iconView: view,
             title: title,
