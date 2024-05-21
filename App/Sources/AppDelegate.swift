@@ -9,6 +9,8 @@ import SwiftUI
 import SimplyCoreAudio
 import DynamicNotchKit
 import KeyboardShortcuts
+import AVFoundation
+var player: AVAudioPlayer?
 
 // An app delegate is where you can handle application-level events
 // Useful to set up monitoring for each notch module :D

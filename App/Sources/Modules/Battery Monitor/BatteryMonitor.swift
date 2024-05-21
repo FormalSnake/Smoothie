@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 class BatteryMonitor: MonitorProtocol {
     let CHARGING_THRESHOLD: Int = 20
-
+    
     private var batteryService: BatteryService?
     @Published var lastBatteryPowerSource: PowerSource?
     
@@ -35,10 +36,10 @@ class BatteryMonitor: MonitorProtocol {
             return
         }
         let percentage = batteryService.percentage ?? 100
-
+        
         if batteryService.powerSource != self.lastBatteryPowerSource ||
             percentage <= CHARGING_THRESHOLD {
-
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.show()
             }
@@ -53,7 +54,7 @@ class BatteryMonitor: MonitorProtocol {
         let percentage = batteryService.percentage ?? 100
         let timeRemaining = batteryService.timeRemaining
         var title: String = batteryService.powerSource == .battery ? "On Battery Power..." : "Charging..."
-
+        
         var description = String(
             format: "%d hours and %02d minutes Remaining",
             arguments: [(timeRemaining ?? 0) / 60, (timeRemaining ?? 0) % 60]
@@ -80,13 +81,13 @@ class BatteryMonitor: MonitorProtocol {
                 )
             }
         }
-
+        
         // If battery percentage is < 20% and not being charged
         if percentage <= self.CHARGING_THRESHOLD && batteryService.isCharging == false {
             title = "Low Battery"
             description = "Please charge to dismiss this warning."
         }
-
+        
         if let appDelegate = NSApp.delegate as? AppDelegate {
             appDelegate.showPopup(
                 title: title,
@@ -96,8 +97,42 @@ class BatteryMonitor: MonitorProtocol {
                 seconds: percentage <= CHARGING_THRESHOLD ? nil : 2,
                 sender: self
             )
+            if(percentage < 20)
+            {
+                playFailSound()
+            }
+            else{
+                playSuccessSound()
+            }
         }
         
         self.lastBatteryPowerSource = batteryService.powerSource
+    }
+    
+    func playSuccessSound() {
+        guard let path = Bundle.main.path(forResource: "success", ofType:"wav") else {
+            return }
+        let url = URL(fileURLWithPath: path)
+        
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.play()
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    func playFailSound() {
+        guard let path = Bundle.main.path(forResource: "fail", ofType:"wav") else {
+            return }
+        let url = URL(fileURLWithPath: path)
+        
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.play()
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 }

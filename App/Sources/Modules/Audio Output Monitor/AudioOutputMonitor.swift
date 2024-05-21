@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SimplyCoreAudio
+import AVFoundation
 
 class AudioOutputMonitor: MonitorProtocol {
     private var lastDevice: AudioDevice?
@@ -55,6 +56,21 @@ class AudioOutputMonitor: MonitorProtocol {
                 image: Image(systemName: outputImage),
                 sender: self
             )
+            playTapSound()
+        }
+    }
+    
+    func playTapSound() {
+        guard let path = Bundle.main.path(forResource: "musical-tap-1", ofType:"wav") else {
+            return }
+        let url = URL(fileURLWithPath: path)
+        
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.play()
+            
+        } catch let error {
+            print(error.localizedDescription)
         }
     }
 }
