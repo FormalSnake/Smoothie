@@ -11,15 +11,17 @@ import PrivateMediaRemote
 
 class NowPlayingMonitor: MonitorProtocol {
     private var nowPlayingItem: NowPlayingItem?
-
+    private var lastShownTime: Date?
+    private let showInterval: TimeInterval = 10.0 // 10 seconds
+    
     func addObservers() {
-        // Initialize nowPla
+        // Initialize nowPlayingItem
         MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main) { information in
             if let information = information {
                 self.nowPlayingItem = self.getNowPlayingItem(from: information)
             }
         }
-
+        
         // Set up the observer
         NotificationCenter.default.addObserver(
             forName: NSNotification.Name.mrMediaRemoteNowPlayingInfoDidChange,
@@ -28,7 +30,7 @@ class NowPlayingMonitor: MonitorProtocol {
         ) { _ in
             self.updateData()
         }
-
+        
         MRMediaRemoteRegisterForNowPlayingNotifications(DispatchQueue.main)
     }
     
@@ -36,18 +38,22 @@ class NowPlayingMonitor: MonitorProtocol {
         MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main) { information in
             if let information = information {
                 let newItem = self.getNowPlayingItem(from: information)
-
-                if let newItem = newItem,
-                   newItem.isDifferentState(from: self.nowPlayingItem) {
-
-                    // MARK: EXPERIMENTAL
-                    guard newItem.artwork != nil else { return }
-
-                    self.nowPlayingItem = newItem
-                    self.show()
+                
+                if let newItem = newItem {
+                    let hasChanged = self.nowPlayingItem?.title != newItem.title || self.nowPlayingItem?.artist != newItem.artist
+                    let playbackStateChanged = newItem.isPlaying != self.nowPlayingItem?.isPlaying
+                    let shouldShow = hasChanged || playbackStateChanged
+                    
+                    if shouldShow {
+                        let now = Date()
+                        if hasChanged || (playbackStateChanged && (self.lastShownTime == nil || now.timeIntervalSince(self.lastShownTime!) >= self.showInterval)) {
+                            self.nowPlayingItem = newItem
+                            self.lastShownTime = now
+                            self.show()
+                        }
+                    }
                 }
-
-                // If the now playing view is open, this notification will update it.
+                
                 NotificationCenter.default.post(name: .nowPlayingChanged, object: newItem)
             }
         }
@@ -57,12 +63,12 @@ class NowPlayingMonitor: MonitorProtocol {
         MRMediaRemoteGetNowPlayingInfo(DispatchQueue.main) { information in
             if let information = information {
                 guard let item = self.getNowPlayingItem(from: information) else { return }
-
+                
                 if let appDelegate = AppDelegate.shared {
                     guard !(appDelegate.dynamicNotch?.isVisible ?? false) else {
                         return
                     }
-
+                    
                     appDelegate.dynamicNotch = DynamicNotch(content: NowPlayingView(item))
                     appDelegate.lastShownMonitor = self
                     appDelegate.dynamicNotch?.show(for: 3)
@@ -70,7 +76,7 @@ class NowPlayingMonitor: MonitorProtocol {
             }
         }
     }
-
+    
     func getNowPlayingItem(from information: [AnyHashable: Any]) -> NowPlayingMonitor.NowPlayingItem? {
         guard
             let playbackRate = information[kMRMediaRemoteNowPlayingInfoPlaybackRate] as? Double,
@@ -80,13 +86,13 @@ class NowPlayingMonitor: MonitorProtocol {
         else {
             return nil
         }
-
+        
         // Image is optional
         var image: NSImage?
         if let data = information["kMRMediaRemoteNowPlayingInfoArtworkData"] as? Data {
             image = NSImage(data: data)
         }
-
+        
         let nowPlayingItem = NowPlayingMonitor.NowPlayingItem(
             artist: artist,
             title: title,
@@ -94,7 +100,7 @@ class NowPlayingMonitor: MonitorProtocol {
             artwork: image,
             isPlaying: playbackRate != .zero
         )
-
+        
         return nowPlayingItem
     }
 }
