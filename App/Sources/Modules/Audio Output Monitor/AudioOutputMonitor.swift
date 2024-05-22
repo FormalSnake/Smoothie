@@ -12,26 +12,26 @@ import AVFoundation
 class AudioOutputMonitor: MonitorProtocol {
     private var lastDevice: AudioDevice?
     private let sca = SimplyCoreAudio()
-
+    
     func addObservers() {
         self.lastDevice = sca.defaultOutputDevice
-
+        
         NotificationCenter.default.addObserver(forName: .defaultOutputDeviceChanged, object: nil, queue: .main) { _ in
             self.updateData()
         }
     }
-
+    
     func updateData() {
         guard let defaultOutputDevice = sca.defaultOutputDevice else { return }
-
+        
         if defaultOutputDevice != self.lastDevice {
             self.show()
         }
     }
-
+    
     func show() {
         guard let defaultOutputDevice = sca.defaultOutputDevice else { return}
-
+        
         var outputImage = "cable.coaxial"
         
         if defaultOutputDevice.name.lowercased().contains("buds") {
@@ -46,9 +46,9 @@ class AudioOutputMonitor: MonitorProtocol {
         if defaultOutputDevice.name.lowercased().contains("headphones") {
             outputImage = "headphones"
         }
-
+        
         self.lastDevice = defaultOutputDevice
-
+        
         if let appDelegate = AppDelegate.shared {
             appDelegate.showPopup(
                 title: defaultOutputDevice.name,
@@ -56,21 +56,10 @@ class AudioOutputMonitor: MonitorProtocol {
                 image: Image(systemName: outputImage),
                 sender: self
             )
-            playTapSound()
+            appDelegate.playTapSound()
         }
     }
     
-    func playTapSound() {
-        guard let path = Bundle.main.path(forResource: "musical-tap-1", ofType:"wav") else {
-            return }
-        let url = URL(fileURLWithPath: path)
-        
-        do {
-            player = try AVAudioPlayer(contentsOf: url)
-            player?.play()
-            
-        } catch let error {
-            print(error.localizedDescription)
-        }
-    }
 }
+
+

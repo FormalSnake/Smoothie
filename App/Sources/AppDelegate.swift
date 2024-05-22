@@ -94,4 +94,44 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
             dynamicNotch?.show()
         }
     }
+    
+    func playTapSound() {
+        guard let path = Bundle.main.path(forResource: "musical-tap-1", ofType:"wav") else {
+            return }
+        let url = URL(fileURLWithPath: path)
+        
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.play()
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    func playSuccessSound() {
+        guard let path = Bundle.main.path(forResource: "success", ofType:"wav") else {
+            return }
+        let url = URL(fileURLWithPath: path)
+        
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.play()
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    func playFailSound() {
+        guard let path = Bundle.main.path(forResource: "fail", ofType:"wav") else {
+            return }
+        let url = URL(fileURLWithPath: path)
+        
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.play()
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
 }
