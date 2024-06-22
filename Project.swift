@@ -30,7 +30,6 @@ let project = Project(
                 .package(product: "KeyboardShortcuts", type: .runtime),
                 .package(product: "PrivateMediaRemote", type: .runtime),
                 .package(product: "MediaRemote", type: .runtime),
-                .package(product: "Luminare", type: .runtime),
             ],
             settings: Settings.settings(
                 base: [

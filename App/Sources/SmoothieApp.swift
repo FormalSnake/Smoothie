@@ -8,7 +8,6 @@
 import SwiftUI
 import Sparkle
 import Defaults
-import SettingsAccess
 import KeyboardShortcuts
 
 @main
