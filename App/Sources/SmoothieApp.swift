@@ -16,12 +16,6 @@ struct SmoothieApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
-        Settings {
-            SettingsView()
-        }
-        .windowResizability(.contentSize)
-        .windowStyle(.hiddenTitleBar)
-        
         MenuBarExtra("Smoothie", systemImage: "takeoutbag.and.cup.and.straw.fill") {
             Button("Audio Output Monitor") {
                 appDelegate.audioOutputMonitor.show()
@@ -39,26 +33,12 @@ struct SmoothieApp: App {
             .keyboardShortcut(.triggerMediaPlayer)
 
             Divider()
-            
-            SettingsLink(
-                label: {
-                    Text("Settings…")
-                },
-                preAction: {
-                    for window in NSApp.windows where window.toolbar?.items != nil {
-                        window.close()
-                    }
-                    NSApp.activate(ignoringOtherApps: true)
-                },
-                postAction: {
-                    for window in NSApp.windows where window.toolbar?.items != nil {
-                        window.orderFrontRegardless()
-                        window.center()
-                    }
-                }
-            )
+
+            Button("Settings…") {
+                LuminareManager.open()
+            }
             .keyboardShortcut(",", modifiers: .command)
-            
+
             Divider()
             
             Button(action: {

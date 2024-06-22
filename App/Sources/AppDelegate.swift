@@ -26,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     let batteryMonitor = BatteryMonitor()
     let audioOutputMonitor = AudioOutputMonitor()
     let nowPlayingMonitor = NowPlayingMonitor()
-    
+
     var dynamicNotch: DynamicNotch?
     var lastShownMonitor: MonitorProtocol?
 

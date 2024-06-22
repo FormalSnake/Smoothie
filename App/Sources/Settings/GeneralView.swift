@@ -21,9 +21,29 @@ struct GeneralView: View{
             LuminareToggle("Hide menubar icon", isOn: $hideMenuIcon)
         }
         LuminareSection("Shortcuts"){
-            KeyboardShortcuts.Recorder("Audio output shortcut:", name: .triggerAudioOutput)
-            KeyboardShortcuts.Recorder("Battery monitor shortcut:", name: .triggerBattery)
-            KeyboardShortcuts.Recorder("Media player shortcut:", name: .triggerMediaPlayer)
+            HStack {
+                Text("Audio output shortcut")
+                Spacer()
+                KeyboardShortcuts.Recorder(for: .triggerAudioOutput)
+            }
+            .frame(height: 34)
+            .padding(.horizontal, 8)
+
+            HStack {
+                Text("Battery monitor shortcut")
+                Spacer()
+                KeyboardShortcuts.Recorder(for: .triggerBattery)
+            }
+            .frame(height: 34)
+            .padding(.horizontal, 8)
+
+            HStack {
+                Text("Media player shortcut")
+                Spacer()
+                KeyboardShortcuts.Recorder(for: .triggerMediaPlayer)
+            }
+            .frame(height: 34)
+            .padding(.horizontal, 8)
         }
     }
 }
