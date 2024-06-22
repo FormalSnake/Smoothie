@@ -1,5 +1,5 @@
 {
-  "originHash" : "cdd5847e436e6ed5212cf2bf3dd50a050a609634e9825efed523b54e9ab22b2e",
+  "originHash" : "4369b4b43da97672c67827d1e94d8f5286794f8c5fc3cf68eab1df7b2b83f092",
   "pins" : [
     {
       "identity" : "defaults",
@@ -7,7 +7,7 @@
       "location" : "https://github.com/sindresorhus/Defaults",
       "state" : {
         "branch" : "main",
-        "revision" : "38925e3cfacf3fb89a81a35b1cd44fd5a5b7e0fa"
+        "revision" : "d8a954e69ff13b0f7805f3757c8f8d0c8ef5a8cb"
       }
     },
     {
@@ -16,7 +16,7 @@
       "location" : "https://github.com/MrKai77/DynamicNotchKit",
       "state" : {
         "branch" : "main",
-        "revision" : "4b146667dcd7125bd8d4e301ae72cb3869dfd48d"
+        "revision" : "00df0e1a0c0503084bcf5e2d15267d2c9af769f4"
       }
     },
     {
@@ -25,7 +25,16 @@
       "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
       "state" : {
         "branch" : "main",
-        "revision" : "09e4a10ed6b65b3a40fe07b6bf0c84809313efc4"
+        "revision" : "2e5f15581fefb821d4b366e57d817be8bf12aa58"
+      }
+    },
+    {
+      "identity" : "luminare",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MrKai77/Luminare.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "2610cefb4f9fed059d259a3a527a8b9fa7ca15c3"
       }
     },
     {
@@ -52,7 +61,7 @@
       "location" : "https://github.com/orchetect/SettingsAccess",
       "state" : {
         "branch" : "main",
-        "revision" : "e1083e6651c625332112031bf74ad81322b7df2c"
+        "revision" : "f0b57b4c4c0de66b9f4d6c41d39f1d6ede0c9891"
       }
     },
     {
@@ -70,7 +79,7 @@
       "location" : "https://github.com/sparkle-project/Sparkle",
       "state" : {
         "branch" : "2.x",
-        "revision" : "e9989a8ae7d09c946d07d325d71414024bd1e2dd"
+        "revision" : "3a9734538a38b35107962d6e8c5975cdabaeb56d"
       }
     },
     {

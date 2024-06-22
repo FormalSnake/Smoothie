@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Defaults
+import Luminare
 
 struct AppearanceView: View{
     @Default(.slideTransition) var slideTransition
@@ -15,13 +16,12 @@ struct AppearanceView: View{
     @Default(.currentStyle) var currentStyle
 
     var body: some View{
-        Form {
-            Section {
+        LuminareSection {
                 AsyncImage(url: URL(string: "https://via.placeholder.com/704x299"))
                     .aspectRatio(contentMode: .fill)
                 
-                Toggle("Slide transition", isOn: $slideTransition)
-                Toggle("High contrast", isOn: $highContrast)
+            LuminareToggle("Slide transition", isOn: $slideTransition)
+            LuminareToggle("High contrast", isOn: $highContrast)
                 Picker("Selected icon:", selection: $currentStyle) {
                     HStack{
                         Label("Automatic", systemImage: "gear")
@@ -31,14 +31,6 @@ struct AppearanceView: View{
                 }
             }
         }
-        .formStyle(.grouped)
-        .scrollDisabled(false)
-        .scrollContentBackground(.hidden)
-        .background(
-            VisualEffectView(material: .fullScreenUI, blendingMode: .behindWindow)
-                .ignoresSafeArea()
-        )
-    }
 }
 
 #Preview {

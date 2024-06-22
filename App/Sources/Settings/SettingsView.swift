@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Defaults
+import Luminare
 
 struct SettingsView: View {
     @State private var selection: Int? = 0
