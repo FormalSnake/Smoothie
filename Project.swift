@@ -10,6 +10,7 @@ let project = Project(
         .remote(url: "https://github.com/orchetect/SettingsAccess", requirement: .branch("main")),
         .remote(url: "https://github.com/sindresorhus/KeyboardShortcuts", requirement: .branch("main")),
         .remote(url: "https://github.com/PrivateFrameworks/MediaRemote", requirement: .upToNextMinor(from: "0.1.0")),
+        .remote(url: "https://github.com/MrKai77/Luminare.git", requirement: .ubranch("main")),
     ],
     targets: [
         .target(
@@ -29,6 +30,7 @@ let project = Project(
                 .package(product: "KeyboardShortcuts", type: .runtime),
                 .package(product: "PrivateMediaRemote", type: .runtime),
                 .package(product: "MediaRemote", type: .runtime),
+                .package(product: "Luminare", type: .runtime),
             ],
             settings: Settings.settings(
                 base: [
