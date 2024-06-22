@@ -23,16 +23,6 @@ class LuminareManager {
                 generalConfiguration,
                 appearanceConfiguration,
                 updatesConfiguration
-            ]),
-            .init([
-                generalConfiguration,
-                appearanceConfiguration,
-                updatesConfiguration
-            ]),
-            .init([
-                generalConfiguration,
-                appearanceConfiguration,
-                updatesConfiguration
             ])
         ],
         tint: { Color.yellow },
