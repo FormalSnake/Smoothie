@@ -1,5 +1,5 @@
 {
-  "originHash" : "4369b4b43da97672c67827d1e94d8f5286794f8c5fc3cf68eab1df7b2b83f092",
+  "originHash" : "3553b825c3332c04357bcdf658865c042748cd1df08f5af5c5e8f0ee819d3a66",
   "pins" : [
     {
       "identity" : "defaults",
@@ -31,10 +31,10 @@
     {
       "identity" : "luminare",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/MrKai77/Luminare.git",
+      "location" : "https://github.com/MrKai77/Luminare",
       "state" : {
         "branch" : "main",
-        "revision" : "2610cefb4f9fed059d259a3a527a8b9fa7ca15c3"
+        "revision" : "33162692e4c15b12735722ea5454e9a4b22b8c88"
       }
     },
     {
@@ -53,15 +53,6 @@
       "state" : {
         "revision" : "d4c569d9ce5e146e9185ebc056fdbaaf9784ec5d",
         "version" : "0.1.1"
-      }
-    },
-    {
-      "identity" : "settingsaccess",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/orchetect/SettingsAccess",
-      "state" : {
-        "branch" : "main",
-        "revision" : "f0b57b4c4c0de66b9f4d6c41d39f1d6ede0c9891"
       }
     },
     {

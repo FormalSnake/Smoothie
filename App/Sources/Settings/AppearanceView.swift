@@ -17,9 +17,6 @@ struct AppearanceView: View{
 
     var body: some View{
         LuminareSection {
-                AsyncImage(url: URL(string: "https://via.placeholder.com/704x299"))
-                    .aspectRatio(contentMode: .fill)
-                
             LuminareToggle("Slide transition", isOn: $slideTransition)
             LuminareToggle("High contrast", isOn: $highContrast)
                 Picker("Selected icon:", selection: $currentStyle) {
