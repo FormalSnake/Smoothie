@@ -50,10 +50,6 @@ struct SmoothieApp: App {
     }
 }
 
-#Preview {
-    SettingsView()
-}
-
 struct VisualEffectView: NSViewRepresentable {
     let material: NSVisualEffectView.Material
     let blendingMode: NSVisualEffectView.BlendingMode

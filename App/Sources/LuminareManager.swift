@@ -23,7 +23,7 @@ class LuminareManager {
                 generalConfiguration,
                 appearanceConfiguration,
                 updatesConfiguration
-            ]),
+            ])
         ],
         tint: { Color.accentColor },
         didTabChange: { _ in }
