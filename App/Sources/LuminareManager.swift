@@ -19,7 +19,7 @@ class LuminareManager {
     
     static var luminare = LuminareSettingsWindow(
         [
-            .init([
+            .init("Settings", [
                 generalConfiguration,
                 appearanceConfiguration,
                 updatesConfiguration

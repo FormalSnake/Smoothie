@@ -12,12 +12,13 @@ import KeyboardShortcuts
 import Luminare
 
 struct GeneralView: View{
-    @Default(.launchAtLogin) var launchAtLogin
+    //@Default(.launchAtLogin) var launchAtLogin
     @Default(.hideMenuIcon) var hideMenuIcon
     
     var body: some View{
         LuminareSection("Behaviour") {
-            LuminareToggle("Launch at login", isOn: $launchAtLogin)
+            //LuminareToggle("Launch at login", isOn: $launchAtLogin)
+            LaunchAtLogin.Toggle("Launch at login")
             LuminareToggle("Hide menubar icon", isOn: $hideMenuIcon)
         }
         LuminareSection("Shortcuts"){
