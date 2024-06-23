@@ -13,13 +13,13 @@ import Luminare
 
 struct GeneralView: View{
     //@Default(.launchAtLogin) var launchAtLogin
-    @Default(.hideMenuIcon) var hideMenuIcon
+    @Default(.showDockIcon) var showDockIcon
     
     var body: some View{
         LuminareSection("Behaviour") {
             //LuminareToggle("Launch at login", isOn: $launchAtLogin)
             LaunchAtLogin.Toggle("Launch at login")
-            LuminareToggle("Hide menubar icon", isOn: $hideMenuIcon)
+            LuminareToggle("Show icon in dock", isOn: $showDockIcon)
         }
         LuminareSection("Shortcuts"){
             HStack {

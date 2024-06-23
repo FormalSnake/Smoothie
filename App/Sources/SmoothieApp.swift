@@ -13,7 +13,6 @@ import KeyboardShortcuts
 @main
 struct SmoothieApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @Default(.hideMenuIcon) var hideMenuIcon
     
     var body: some Scene {
         MenuBarExtra("Smoothie", systemImage: "takeoutbag.and.cup.and.straw.fill") {

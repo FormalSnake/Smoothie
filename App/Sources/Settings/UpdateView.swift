@@ -23,19 +23,19 @@ class AboutConfigurationModel: ObservableObject {
     @Published var updateButtonTitle: LocalizedStringKey = "Check for updates…"
     
     let credits: [CreditItem] = [
-            .init(
-                "Kai",
-                "Development",
-                url: .init(string: "https://github.com/mrkai77")!,
-                avatar: Image(.kai)
-            ),
-            .init(
-                "Kyan",
-                "Development",
-                url: .init(string: "https://x.com/formalsnake")!,
-                avatar: Image(.kyan)
-            ),
-        ]
+        .init(
+            "Kai",
+            "Development",
+            url: .init(string: "https://github.com/mrkai77")!,
+            avatar: Image(.kai)
+        ),
+        .init(
+            "Kyan",
+            "Development",
+            url: .init(string: "https://x.com/formalsnake")!,
+            avatar: Image(.kyan)
+        ),
+    ]
     
     let upToDateText: [LocalizedStringKey] = [
         "All systems are fully operational.",
@@ -64,12 +64,12 @@ class AboutConfigurationModel: ObservableObject {
 
 struct CreditItem: Identifiable {
     var id: String { name }
-
+    
     let name: String
     let description: LocalizedStringKey?
     let url: URL
     let avatar: Image
-
+    
     init(_ name: String, _ description: LocalizedStringKey? = nil, url: URL, avatar: Image) {
         self.name = name
         self.description = description
@@ -97,7 +97,7 @@ struct UpdateView: View{
                     }
                     
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Loop")
+                        Text("Smoothie")
                             .fontWeight(.medium)
                         
                         Text(
@@ -118,8 +118,7 @@ struct UpdateView: View{
             .onHover {
                 model.isHoveringOverVersionCopier = $0
             }
-        }
-        LuminareSection {
+            
             Button {
                 Task {
                     /*await updater.fetchLatestInfo()
@@ -144,44 +143,44 @@ struct UpdateView: View{
             }
         }
         LuminareSection("Credits") {
-                   ForEach(model.credits) { credit in
-                       creditsView(credit)
-                   }
-               }
+            ForEach(model.credits) { credit in
+                creditsView(credit)
+            }
+        }
     }
     
     @ViewBuilder
-        func creditsView(_ credit: CreditItem) -> some View {
-            Button {
-                openURL(credit.url)
-            } label: {
-                HStack(spacing: 12) {
-                    credit.avatar
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 40)
-                        .overlay {
-                            Circle()
-                                .strokeBorder(.white.opacity(0.1), lineWidth: 1)
-                        }
-                        .clipShape(.circle)
-
-                    VStack(alignment: .leading) {
-                        Text(credit.name)
-
-                        if let description = credit.description {
-                            Text(description)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
+    func creditsView(_ credit: CreditItem) -> some View {
+        Button {
+            openURL(credit.url)
+        } label: {
+            HStack(spacing: 12) {
+                credit.avatar
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 40)
+                    .overlay {
+                        Circle()
+                            .strokeBorder(.white.opacity(0.1), lineWidth: 1)
                     }
-
-                    Spacer()
+                    .clipShape(.circle)
+                
+                VStack(alignment: .leading) {
+                    Text(credit.name)
+                    
+                    if let description = credit.description {
+                        Text(description)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
-                .padding(12)
+                
+                Spacer()
             }
-            .buttonStyle(LuminareCosmeticButtonStyle(Image(systemName: "square.and.arrow.up")))
+            .padding(12)
         }
+        .buttonStyle(LuminareCosmeticButtonStyle(Image(systemName: "square.and.arrow.up")))
+    }
 }
 
 #Preview {

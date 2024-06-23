@@ -10,6 +10,8 @@ import SimplyCoreAudio
 import DynamicNotchKit
 import KeyboardShortcuts
 import AVFoundation
+import Defaults
+import UserNotifications
 var player: AVAudioPlayer?
 
 // An app delegate is where you can handle application-level events
@@ -26,14 +28,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     let batteryMonitor = BatteryMonitor()
     let audioOutputMonitor = AudioOutputMonitor()
     let nowPlayingMonitor = NowPlayingMonitor()
-
+    
     var dynamicNotch: DynamicNotch?
     var lastShownMonitor: MonitorProtocol?
-
+    
+    static var isActive: Bool = false
+    
+    private var launchedAsLoginItem: Bool {
+        guard let event = NSAppleEventManager.shared().currentAppleEvent else { return false }
+        return
+        event.eventID == kAEOpenApplication &&
+        event.paramDescriptor(forKeyword: keyAEPropData)?.enumCodeValue == keyAELaunchedAsLogInItem
+    }
+    
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApplication.shared.delegate = self
-        NSApp.setActivationPolicy(.accessory) // Hides dock icon
-
+        
         batteryMonitor.addObservers()
         audioOutputMonitor.addObservers()
         nowPlayingMonitor.addObservers()
@@ -47,6 +57,34 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         KeyboardShortcuts.onKeyDown(for: .triggerAudioOutput) { [self] in
             audioOutputMonitor.show()
         }
+        
+        if !launchedAsLoginItem {
+            LuminareManager.open()
+        } else {
+            // Dock icon is usually handled by LuminareManager, but in this case, it is manually set
+            if !Defaults[.showDockIcon] {
+                NSApp.setActivationPolicy(.accessory)
+            }
+        }
+    }
+    
+    func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool {
+        LuminareManager.fullyClose()
+        return false
+    }
+    
+    func applicationShouldHandleReopen(_: NSApplication, hasVisibleWindows _: Bool) -> Bool {
+        LuminareManager.open()
+        return true
+    }
+    
+    static func relaunch(after seconds: TimeInterval = 0.5) -> Never {
+        let task = Process()
+        task.launchPath = "/bin/sh"
+        task.arguments = ["-c", "sleep \(seconds); open \"\(Bundle.main.bundlePath)\""]
+        task.launch()
+        NSApp.terminate(nil)
+        exit(0)
     }
     
     func showPopup(title: String, description: String?, image: Image?, seconds: Double? = 2, sender: MonitorProtocol) {
@@ -60,7 +98,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
             title: title,
             description: description
         )
-
+        
         lastShownMonitor = sender
         if let seconds = seconds {
             dynamicNotch?.show(for: seconds)

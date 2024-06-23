@@ -7,6 +7,7 @@
 
 import Luminare
 import SwiftUI
+import Defaults
 
 class LuminareManager {
     static var window: NSWindow? {
@@ -45,11 +46,14 @@ class LuminareManager {
         }
         
         luminare.show()
+        AppDelegate.isActive = true
         NSApp.setActivationPolicy(.regular)
     }
     
     static func fullyClose() {
         luminare.deinitWindow()
-        NSApp.setActivationPolicy(.accessory)
+        if !Defaults[.showDockIcon] {
+            NSApp.setActivationPolicy(.accessory)
+        }
     }
 }
