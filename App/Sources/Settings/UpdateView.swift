@@ -38,25 +38,24 @@ class AboutConfigurationModel: ObservableObject {
     ]
     
     let upToDateText: [LocalizedStringKey] = [
-        "All systems are fully operational.",
-        "No new data from Starfleet.",
-        "You’re already in hyperspace!",
-        "Await further instructions.",
+        "All systems are at Red Alert, ready for action!",
+        "No new data from Starfleet Command.",
+        "You're already at warp speed!",
+        "Awaiting further orders from the bridge.",
         "These aren't the updates you're looking for.",
-        "Stay vigilant, more intel inbound!",
-        "May the Force be with you... next time!",
-        "The Force is strong with this version!",
-        "You’ve reached the event horizon!",
-        "You’ve got the precious, no updates needed!",
-        "No new intel, Commander."
+        "Stay vigilant, more signals from Starfleet are incoming!",
+        "May the Force guide your next mission!",
+        "I'm afraid I cannot do that, Dave.",
+        "You've crossed the event horizon, no turning back!",
+        "You’ve got the monolith, no updates required!",
+        "No new intel, Captain."
     ]
     
     func copyVersionToClipboard() {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.setString(
-            //"Version \(Bundle.main.appVersion) (\(Bundle.main.appBuild))",
-            "Oi why are you disrespecting me bruv??",
+            "Version \(Bundle.main.appVersion ?? "Unknown") (\(Bundle.main.appBuild ?? 0))",
             forType: NSPasteboard.PasteboardType.string
         )
     }
@@ -78,10 +77,73 @@ struct CreditItem: Identifiable {
     }
 }
 
+// This view model class publishes when new updates can be checked by the user
+final class CheckForUpdatesViewModel: ObservableObject {
+    @Published var canCheckForUpdates = false
+    
+    init(updater: SPUUpdater) {
+        updater.publisher(for: \.canCheckForUpdates)
+            .assign(to: &$canCheckForUpdates)
+    }
+}
+
+// This is the view for the Check for Updates menu item
+// Note this intermediate view is necessary for the disabled state on the menu item to work properly before Monterey.
+// See https://stackoverflow.com/questions/68553092/menu-not-updating-swiftui-bug for more info
+struct CheckForUpdatesView: View {
+    @ObservedObject private var checkForUpdatesViewModel: CheckForUpdatesViewModel
+    private let updater: SPUUpdater
+    @StateObject private var model = AboutConfigurationModel()
+    
+    init(updater: SPUUpdater) {
+        self.updater = updater
+        
+        // Create our view model for our CheckForUpdatesView
+        self.checkForUpdatesViewModel = CheckForUpdatesViewModel(updater: updater)
+    }
+    
+    var body: some View {
+        Button {
+            
+            Task {
+                /*await updater.fetchLatestInfo()
+                 
+                 if updater.updateState == .available {
+                 updater.showUpdateWindow()
+                 } else {*/
+                updater.checkForUpdates()
+                
+                model.updateButtonTitle = model.upToDateText.randomElement()!
+                
+                let currentTitle = model.updateButtonTitle
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    if model.updateButtonTitle == currentTitle {
+                        model.updateButtonTitle = "Check for updates…"
+                    }
+                }
+                //}
+            }
+        }
+        label: {
+            Text(model.updateButtonTitle)
+                .contentTransition(.numericText())
+                .animation(.smooth(duration: 0.25), value: model.updateButtonTitle)
+        }
+        .disabled(!checkForUpdatesViewModel.canCheckForUpdates)
+    }
+}
+
 struct UpdateView: View{
     @Environment(\.openURL) private var openURL
     @StateObject private var model = AboutConfigurationModel()
+    private let updaterController: SPUStandardUpdaterController
     //@ObservedObject private var updater = AppDelegate.updater
+    
+    init() {
+        // If you want to start the updater manually, pass false to startingUpdater and call .startUpdater() later
+        // This is where you can also pass an updater delegate if you need one
+        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+    }
     
     var body: some View{
         LuminareSection {
@@ -101,8 +163,7 @@ struct UpdateView: View{
                             .fontWeight(.medium)
                         
                         Text(
-                            //"Version \(Bundle.main.appVersion) (\(Bundle.main.appBuild))"
-                            "Version idk (what did u expect)"
+                            "Version \(Bundle.main.appVersion ?? "Unknown") (\(Bundle.main.appBuild ?? 0))"
                         )
                         .contentTransition(.numericText(countsDown: !model.isHoveringOverVersionCopier))
                         .animation(.smooth(duration: 0.25), value: model.isHoveringOverVersionCopier)

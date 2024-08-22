@@ -10,48 +10,49 @@ import SwiftUI
 import Defaults
 
 class LuminareManager {
-    static var window: NSWindow? {
-        LuminareManager.luminare.windowController?.window
-    }
-    
     static let generalConfiguration = SettingsTab("General", Image(systemName: "gearshape"), GeneralView())
-    static let appearanceConfiguration = SettingsTab("Appearance", Image(systemName: "paintbrush"), AppearanceView())
+    //static let appearanceConfiguration = SettingsTab("Appearance", Image(systemName: "paintbrush"), AppearanceView())
     static let updatesConfiguration = SettingsTab("Updates", Image(systemName: "shippingbox"), UpdateView())
     
-    static var luminare = LuminareSettingsWindow(
-        [
-            .init("Settings", [
-                generalConfiguration,
-                appearanceConfiguration,
-                updatesConfiguration
-            ])
-        ],
-        tint: { Color.accentColor },
-        didTabChange: { _ in }
-    )
+    static var luminare: LuminareSettingsWindow?
     
     static func open() {
-        if luminare.windowController == nil {
-            luminare.initializeWindow()
-            
+        if luminare == nil {
+            luminare = LuminareSettingsWindow(
+                [
+                    .init([
+                        generalConfiguration,
+                        //appearanceConfiguration,
+                        updatesConfiguration,
+                    ])
+                    
+                ],
+                tint: {
+                    Color.accentColor
+                },
+                didTabChange: {_ in},
+                showPreviewIcon: Image(systemName: "takeoutbag.and.cup.and.straw.fill"),
+                hidePreviewIcon: Image(systemName: "takeoutbag.and.cup.and.straw.fill")
+            )
             DispatchQueue.main.async {
-                luminare.addPreview(
+                luminare?.addPreview(
                     content: NotchlessView(),
                     identifier: "Preview",
                     fullSize: true
                 )
                 
-                luminare.showPreview(identifier: "Preview")
+                luminare?.showPreview(identifier: "Preview")
             }
         }
-        
-        luminare.show()
+        luminare?.show()
         AppDelegate.isActive = true
         NSApp.setActivationPolicy(.regular)
     }
     
     static func fullyClose() {
-        luminare.deinitWindow()
+        luminare?.close()
+        luminare = nil
+        
         if !Defaults[.showDockIcon] {
             NSApp.setActivationPolicy(.accessory)
         }

@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-    
+
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
@@ -22,29 +22,29 @@ jobs:
       - name: Install dependencies
         run: |
           brew install xcbeautify create-dmg tuist
-          
+
       - name: Tuist install
         run: tuist install
-        
+
       - name: Tuist generate
         run: tuist generate
-        
+
       - name: Build Smoothie.app
         run: |
-           set -o pipefail && xcodebuild archive \
-            -project ./Smoothie.xcodeproj \
-            -destination "generic/platform=macOS" \
-            -scheme "Smoothie" \
-            -configuration Debug \
-            -archivePath "./Build/Smoothie.xcarchive" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGN_IDENTITY= \
-            CODE_SIGN_ENTITLEMENTS= \
-            GCC_OPTIMIZATION_LEVEL=s \
-            SWIFT_OPTIMIZATION_LEVEL=-O \
-            GCC_GENERATE_DEBUGGING_SYMBOLS=YES \
-            DEBUG_INFORMATION_FORMAT=dwarf-with-dsym | xcbeautify
+          set -o pipefail && xcodebuild archive \
+           -project ./Smoothie.xcodeproj \
+           -destination "generic/platform=macOS" \
+           -scheme "Smoothie" \
+           -configuration Debug \
+           -archivePath "./Build/Smoothie.xcarchive" \
+           CODE_SIGNING_REQUIRED=NO \
+           CODE_SIGNING_ALLOWED=NO \
+           CODE_SIGN_IDENTITY= \
+           CODE_SIGN_ENTITLEMENTS= \
+           GCC_OPTIMIZATION_LEVEL=s \
+           SWIFT_OPTIMIZATION_LEVEL=-O \
+           GCC_GENERATE_DEBUGGING_SYMBOLS=YES \
+           DEBUG_INFORMATION_FORMAT=dwarf-with-dsym | xcbeautify
 
       - name: Make DMG
         run: |
@@ -71,9 +71,19 @@ jobs:
         run: |
           cp -R ./Build/Smoothie.xcarchive/Products/Applications/ ./Build/
           ditto -c -k --sequesterRsrc --keepParent ./Build/Smoothie.app ./Build/Smoothie.zip
- 
+
       - name: Upload ZIP
         uses: actions/upload-artifact@v4
         with:
           name: Smoothie.zip
           path: Build/Smoothie.zip
+
+      - name: Create AppCast.xml
+        run: |
+          ./scripts/update_appcast.sh
+
+      - name: Upload AppCast.xml
+        uses: actions/upload-artifact@v4
+        with:
+          name: AppCast.xml
+          path: appcast.xml

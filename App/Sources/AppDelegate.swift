@@ -42,6 +42,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
+        Task {
+            await Defaults.iCloud.waitForSyncCompletion()
+        }
         NSApplication.shared.delegate = self
         
         batteryMonitor.addObservers()

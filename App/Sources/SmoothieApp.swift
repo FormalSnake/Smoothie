@@ -20,31 +20,30 @@ struct SmoothieApp: App {
                 appDelegate.audioOutputMonitor.show()
             }
             .keyboardShortcut(.triggerAudioOutput)
-
+            
             Button("Battery Monitor") {
                 appDelegate.batteryMonitor.show()
             }
             .keyboardShortcut(.triggerBattery)
-
+            
             Button("Now Playing Monitor") {
                 appDelegate.nowPlayingMonitor.show()
             }
             .keyboardShortcut(.triggerMediaPlayer)
-
+            
             Divider()
-
+            
             Button("Settings…") {
                 LuminareManager.open()
             }
             .keyboardShortcut(",", modifiers: .command)
-
+            
             Divider()
             
-            Button(action: {
-                NSApp.terminate(self)
-            }, label: {
-                Text("Quit")
-            })
+            Button("Quit") {
+                NSApp.terminate(nil)
+            }
+            .keyboardShortcut("q", modifiers: .command)
         }
         .menuBarExtraStyle(.menu)
     }

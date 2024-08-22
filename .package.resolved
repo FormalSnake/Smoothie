@@ -7,7 +7,7 @@
       "location" : "https://github.com/sindresorhus/Defaults",
       "state" : {
         "branch" : "main",
-        "revision" : "d8a954e69ff13b0f7805f3757c8f8d0c8ef5a8cb"
+        "revision" : "4c009d5c2496e7aa126e922c94dd3d6ae049efa2"
       }
     },
     {
@@ -25,7 +25,7 @@
       "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
       "state" : {
         "branch" : "main",
-        "revision" : "2e5f15581fefb821d4b366e57d817be8bf12aa58"
+        "revision" : "99cfb0b57ce4840d0a66b2abe1529eebe0ca124f"
       }
     },
     {
@@ -34,7 +34,7 @@
       "location" : "https://github.com/MrKai77/Luminare",
       "state" : {
         "branch" : "main",
-        "revision" : "33162692e4c15b12735722ea5454e9a4b22b8c88"
+        "revision" : "3702a0fe0a9766e5bed243c77075a2302d5ad23a"
       }
     },
     {
@@ -70,7 +70,7 @@
       "location" : "https://github.com/sparkle-project/Sparkle",
       "state" : {
         "branch" : "2.x",
-        "revision" : "3a9734538a38b35107962d6e8c5975cdabaeb56d"
+        "revision" : "04ad482d59d5ee676b30460de6a3f1fa73f07c67"
       }
     },
     {
