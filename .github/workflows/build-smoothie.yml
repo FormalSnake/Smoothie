@@ -77,39 +77,3 @@ jobs:
         with:
           name: Smoothie.zip
           path: Build/Smoothie.zip
-
-      - name: Create AppCast.xml
-        run: |
-          git update-index --chmod=+x ./scripts/update_appcast.sh
-          ./scripts/update_appcast.sh
-
-      - name: Upload AppCast.xml
-        uses: actions/upload-artifact@v4
-        with:
-          name: AppCast.xml
-          path: appcast.xml
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v7
-        with:
-          author_name: "FormalSnake"
-          author_email: "kakskemail@gmail.com"
-          message: "AppCast auto gen"
-          # Set the files to commit - replace this with your own file paths
-          add: "appcast.xml"
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          branch: daily-contribution
-          # Set the Git credentials - replace this with your own secrets
-          github_token: ${{ secrets.TOKEN }}
-      - name: Open pull request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          title: "Daily Contribution"
-          commit-message: "Daily contribution"
-          branch: daily-contribution
-          base: main
-          # Set the pull request body - replace this with your own content
-          body: "This pull request was created automatically by a GitHub Actions workflow to make an appcast."
-          # Set the Git credentials - replace this with your own secrets
-          token: ${{ secrets.TOKEN }}
