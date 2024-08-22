@@ -13,6 +13,11 @@ Smoothie is a minimal dynamic island for the notch on MacOS, even compatible on 
 > Smoothie is looking for maintainers! Me and MrKai77 are busy with school and thus have no time.
 >
 
+> [!WARNING]
+>
+> ATM the UI looks a lot like Loop, that's because we are using the same framework and the UI will be changed in a future update. This program is also by the original creator of Loop and me meaning I have the adecuate permission.
+>
+
 <h6 align="center">
   <img src="https://github.com/user-attachments/assets/6685164d-43c8-47df-9c2d-2a6c5a79ff0a" alt="Smoothie Demo">
   <br /><br />
