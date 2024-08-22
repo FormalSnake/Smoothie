@@ -16,6 +16,7 @@ Smoothie is a minimal dynamic island for the notch on MacOS, even compatible on 
 > [!WARNING]
 >
 > ATM the UI looks a lot like Loop, that's because we are using the same framework and the UI will be changed in a future update. This program is also by the original creator of Loop and me meaning I have the adecuate permission.
+> I DO NOT TAKE ANY CREDIT OF THE UI FRAMEWORK, IT'S LUMINARE'S MAINTAINERS HARD WORK!!
 >
 
 <h6 align="center">
