@@ -80,6 +80,7 @@ jobs:
 
       - name: Create AppCast.xml
         run: |
+          git update-index --chmod=+x ./scripts/update_appcast.sh
           ./scripts/update_appcast.sh
 
       - name: Upload AppCast.xml
