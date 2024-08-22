@@ -38,21 +38,31 @@ Smoothie is a minimal dynamic island for the notch on MacOS, even compatible on 
 
 ### Now playing
 
-The Radial Menu allows you to manipulate windows using your mouse/trackpad. Hold down the trigger key and move your cursor in the desired direction to move and resize the window.
+Whenever you pause, play, skip or go back a handy little indicator appears that tells you what's playing and it's status.
 
-<div><video controls src="https://github.com/user-attachments/assets/658f7043-79a1-4690-83b6-a714fe6245c8" muted="false"></video></div>
+You can also trigger it manually using `⌘+⇧+space`.
+
+<div><video controls src="https://github.com/user-attachments/assets/a3fc1022-1dd7-4ef3-b218-a838274733da" muted="false"></video></div>
 
 ### Battery indicator
 
-The preview window enables you to see the resize action *before* committing to it.
+Whenever you charge, stop charging or have a low battery a handy little popup appears to tell you information about your battery.
 
-<div><video controls src="https://github.com/user-attachments/assets/5ecb3ae8-f295-406f-b968-31e539f4a098" muted="false"></video></div>
+You can also trigger it manually using `⌘+⇧+b`.
+
+<div><video controls src="https://github.com/user-attachments/assets/85530e52-5313-4cfd-97d8-dcef0d149dc0" muted="false"></video></div>
 
 ### Audio source indicator
 
-Loop allows you to assign any key in tandem with the trigger key to initiate a window manipulation action.
+Whenever your audio device changes, a handy little popup appears telling you what audio source is being used. This is handy especially when audio isn't working or to see if your earbuds connected.
 
-<div><video controls src="https://github.com/user-attachments/assets/d865329f-0533-4eeb-829d-9aa6159f454b" muted="false"></video></div>
+You can also trigger it manually using `⌘+⇧+a`.
+
+<div><video controls src="https://github.com/user-attachments/assets/7c5a1fc3-52fe-43f7-a438-380a327124b3" muted="false"></video></div>
+
+## Why smoothie?
+Smoothie is free and open source, meaning that it is forever yours.
+Also, because our codebase is easy and modular you can easily contribute and add custom components!
 
 ## Building
 
