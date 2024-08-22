@@ -1,5 +1,7 @@
 # Smoothie
 
+[Download](https://nightly.link/FormalSnake/Smoothie/workflows/build-smoothie/main/Smoothie.dmg.zip?h=cd34864d072cb859bbfa319e3ae76484bc67a692)
+
 ## Building
 
 This project uses Tuist to manage the Xcode project. To start developing, you will need to [install it](https://docs.tuist.io/guide/introduction/installation.html). For a quick copy-and-paste, here it is: `brew install --cask tuist`.
