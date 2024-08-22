@@ -67,7 +67,7 @@ You can also trigger it manually using `⌘+⇧+a`.
 
 ## Why smoothie?
 Smoothie is free and open source, meaning that it is forever yours.
-Also, because our codebase is easy and modular you can easily contribute and add custom components!
+Also, because our codebase is easy and modular you can easily contribute and add custom indicators!
 
 ## Building
 
