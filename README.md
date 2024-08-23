@@ -1,6 +1,6 @@
 <div align="center">
   <img width="225" height="225" src="https://github.com/FormalSnake/Smoothie/blob/main/App/Resources/Assets.xcassets/AppIcon.appiconset/Smoothie-1024.png" alt="Logo">
-  <h1><b>Smoothie</b></h1>
+  <h1><b>Smoothie (Alpha)</b></h1>
   <p>A smooth and minimal dynamic island for the notch.<br>
   <a href="https://nightly.link/FormalSnake/Smoothie/workflows/build-smoothie/main/Smoothie.dmg.zip?h=cd34864d072cb859bbfa319e3ae76484bc67a692">Download for macOS</a><br>
 </div>
